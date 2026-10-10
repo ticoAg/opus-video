@@ -1,0 +1,143 @@
+{
+  "$schema": "../story.schema.json",
+  "meta": {
+    "id": "princess-and-the-pea",
+    "title": "The Princess and the Pea",
+    "description": "Starter pack: a text-only animatic built from the generic 'card' scene. Replace with drawings + custom scenes.",
+    "source": "H. C. Andersen, 1835 (public domain)",
+    "language": "en",
+    "duration": 20,
+    "fps": 30,
+    "size": { "width": 1920, "height": 1080 },
+    "background": "#fbf4e6"
+  },
+  "assets": {
+    "sources": { "sheets": [] },
+    "sprites": {},
+    "textures": {},
+    "files": {}
+  },
+  "scenes": [
+    {
+      "id": "prince",
+      "title": "A prince looks for a real princess",
+      "module": "card",
+      "start": 0,
+      "end": 6,
+      "assets": [],
+      "params": { "background": "#fbf4e6", "fade": 0.5 },
+      "copy": {
+        "lines": [
+          { "text": "the princess", "at": 0.5, "dur": 1.0, "y": 380, "size": 100, "font": "Hand" },
+          { "text": "and the pea", "at": 1.5, "dur": 1.2, "y": 540, "size": 200 },
+          { "text": "once there was a prince…", "at": 3.5, "dur": 1.5, "y": 820, "size": 80, "font": "Hand" }
+        ]
+      },
+      "cues": [
+        { "t": 0.05, "sfx": "pageTurn", "gain": 0.7 },
+        { "t": 0.5, "sfx": "scribble", "dur": 1.0, "gain": 0.6, "pan": -0.5, "panTo": 0.5 },
+        { "t": 1.5, "sfx": "scribble", "dur": 1.2, "gain": 0.7, "pan": -0.5, "panTo": 0.5 },
+        { "t": 3.5, "sfx": "scribble", "dur": 1.5, "gain": 0.5 }
+      ]
+    },
+    {
+      "id": "storm",
+      "title": "A stormy night, a knock at the gate",
+      "module": "card",
+      "start": 6,
+      "end": 11,
+      "lead": 0.5,
+      "assets": [],
+      "params": { "background": "#2b3157" },
+      "copy": {
+        "lines": [
+          { "text": "one stormy night…", "at": 6.3, "dur": 1.2, "y": 300, "size": 110, "color": "#fbf4e6" },
+          { "text": "knock knock!", "at": 8.5, "dur": 0.6, "y": 640, "size": 150, "color": "#ffe9a0", "rot": -0.05 }
+        ]
+      },
+      "cues": [
+        { "t": 6.0, "sfx": "nightfall", "dur": 1.0, "gain": 0.6 },
+        { "t": 8.5, "sfx": "step", "gain": 0.8 },
+        { "t": 8.75, "sfx": "step", "pitch": 1.1, "gain": 0.8 }
+      ]
+    },
+    {
+      "id": "mattresses",
+      "title": "Twenty mattresses on one pea",
+      "module": "card",
+      "start": 11,
+      "end": 16,
+      "lead": 0.4,
+      "assets": [],
+      "params": { "background": "#f6e3c8" },
+      "copy": {
+        "lines": [
+          { "text": "one pea", "at": 11.2, "dur": 0.8, "y": 900, "size": 90, "font": "Hand" },
+          { "text": "twenty mattresses", "at": 12.3, "dur": 1.2, "y": 520, "size": 130 },
+          { "text": "twenty eiderdowns", "at": 13.8, "dur": 1.2, "y": 340, "size": 130 }
+        ]
+      },
+      "cues": [
+        { "t": 11.2, "sfx": "pop", "gain": 0.5 },
+        { "t": 12.3, "sfx": "puff", "gain": 0.5, "pan": -0.4 },
+        { "t": 13.8, "sfx": "puff", "pitch": 1.2, "gain": 0.5, "pan": 0.4 },
+        { "t": 15.2, "sfx": "snore", "gain": 0.5 }
+      ]
+    },
+    {
+      "id": "ending",
+      "title": "A real princess",
+      "module": "card",
+      "start": 16,
+      "end": 20,
+      "lead": 0.4,
+      "assets": [],
+      "params": { "background": "#fbf4e6" },
+      "copy": {
+        "lines": [
+          { "text": "only a real princess", "at": 16.2, "dur": 1.2, "y": 400, "size": 110, "font": "Hand" },
+          { "text": "could feel that!", "at": 17.4, "dur": 1.0, "y": 560, "size": 150 },
+          { "text": "the end", "at": 18.8, "dur": 0.6, "y": 820, "size": 120 }
+        ]
+      },
+      "cues": [
+        { "t": 16.2, "sfx": "scribble", "dur": 1.2, "gain": 0.5 },
+        { "t": 17.4, "sfx": "shimmer", "gain": 0.6 },
+        { "t": 18.8, "sfx": "ding", "gain": 0.8 }
+      ]
+    }
+  ],
+  "music": {
+    "bpm": 120,
+    "key": "C major",
+    "chords": [
+      [0, 2, "C"], [2, 4, "Am"], [4, 6, "F"],
+      [6, 8, "Am"], [8, 10, "Em"], [10, 11, "G"],
+      [11, 13, "F"], [13, 15, "C"], [15, 16, "G"],
+      [16, 18, "C"], [18, 20, "C"]
+    ],
+    "theme": [
+      [["E5", 0, 1], ["G5", 1, 1], ["C6", 2, 2], ["G5", 4, 1], ["A5", 5, 1], ["G5", 6, 2]],
+      [["F5", 0, 2], ["E5", 2, 1], ["D5", 3, 1], ["C5", 4, 3]]
+    ],
+    "sections": [
+      { "id": "prince", "start": 0, "end": 6, "layers": [
+        { "op": "pads", "a": 0, "z": 6, "gain": 0.18, "cutoff": 1000 },
+        { "op": "arp", "a": 0.5, "z": 6, "inst": "musicbox", "gain": 0.25, "step": "beat" }
+      ] },
+      { "id": "storm", "start": 6, "end": 11, "layers": [
+        { "op": "pads", "a": 6, "z": 11, "gain": 0.22, "cutoff": 700 },
+        { "op": "rootBass", "a": 6, "z": 11, "step": "halfbar", "dur": 0.9, "drive": 1.2, "gain": 0.35 }
+      ] },
+      { "id": "mattresses", "start": 11, "end": 16, "layers": [
+        { "op": "strum", "a": 11, "z": 16, "gain": 0.22 },
+        { "op": "bassline", "a": 11, "z": 16, "gain": 0.35 },
+        { "op": "drums", "a": 12, "z": 16, "kicks": [0], "claps": [], "gain": 0.6 }
+      ] },
+      { "id": "ending", "start": 16, "end": 20, "layers": [
+        { "op": "melody", "bars": [0, 1], "at": 16, "inst": "marimba", "gain": 0.4, "pan": -0.1 },
+        { "op": "phrase", "at": 18.8, "inst": "musicbox", "notes": ["G5", "E5", "C5", "G4", "C5"], "step": 0.18, "gain": 0.3 }
+      ] }
+    ]
+  }
+}

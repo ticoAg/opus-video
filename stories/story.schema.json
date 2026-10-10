@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "story.schema.json",
+  "title": "Story pack",
+  "description": "One short film for the sketchbook engine. See stories/SCHEMA.md. Times are absolute seconds on the film clock.",
+  "type": "object",
+  "required": ["meta", "scenes", "music"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "meta": { "$ref": "#/$defs/meta" },
+    "assets": { "$ref": "#/$defs/assets" },
+    "scenes": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/scene" } },
+    "music": { "$ref": "#/$defs/music" },
+    "voices": {
+      "type": "object",
+      "description": "Spoken-line cast: speaker name -> TTS voice. Lines are marked with copy.lines[].speaker or scenes[].dialogue. See src/audio/voices.js.",
+      "additionalProperties": { "$ref": "#/$defs/voice" }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-zA-Z0-9_-]*$" },
+    "seconds": { "type": "number", "minimum": 0 },
+    "frac": { "type": "number", "minimum": 0, "maximum": 1 },
+    "box": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/frac" } },
+    "note": { "type": "string", "pattern": "^[A-G](#|b)?-?\\d$" },
+    "color": { "type": "string", "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$" },
+    "meta": {
+      "type": "object",
+      "required": ["id", "title", "fps", "size"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "author": { "type": "string" },
+        "source": { "type": "string", "description": "Where the story comes from, e.g. 'H. C. Andersen, 1835 (public domain)'." },
+        "language": { "type": "string" },
+        "duration": { "type": "number", "exclusiveMinimum": 0, "description": "Film length; defaults to the last scene end." },
+        "fps": { "type": "integer", "minimum": 1, "maximum": 120 },
+        "size": {
+          "type": "object", "required": ["width", "height"], "additionalProperties": false,
+          "properties": { "width": { "type": "integer", "minimum": 16 }, "height": { "type": "integer", "minimum": 16 } }
+        },
+        "background": { "$ref": "#/$defs/color" },
+        "buildDir": { "type": "string", "description": "Relative to repo root. Default build/<id>." },
+        "output": { "type": "string", "description": "Final mp4, relative to repo root. Default out/<id>.mp4." },
+        "soundtrack": { "type": "string", "description": "Rendered wav, relative to repo root. Default <buildDir>/soundtrack.wav." }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sources": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "inputDir": { "type": "string", "description": "Folder of page photos (<sheet>.jpg), relative to repo root. Default stories/<id>/input-pictures." },
+            "sheets": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "sprites": { "type": "object", "additionalProperties": { "$ref": "#/$defs/sprite" } },
+        "textures": { "type": "object", "additionalProperties": { "$ref": "#/$defs/texture" } },
+        "files": {
+          "type": "object",
+          "description": "Ready-made images (PNG/JPG) used as-is, name -> path relative to the pack folder. Skips extraction.",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "sprite": {
+      "type": "object",
+      "required": ["sheet", "box"],
+      "additionalProperties": false,
+      "properties": {
+        "sheet": { "type": "string" },
+        "box": { "$ref": "#/$defs/box" },
+        "mode": { "enum": ["object", "scene"] },
+        "exclude": { "type": "array", "items": { "$ref": "#/$defs/box" } },
+        "grow": { "type": "number", "minimum": 0 },
+        "edgeRule": { "type": "boolean" },
+        "photoEdge": { "type": "boolean" },
+        "sticker": { "type": "boolean" },
+        "stickerClose": { "type": "number", "minimum": 0 }
+      }
+    },
+    "texture": {
+      "type": "object",
+      "required": ["sheet", "at"],
+      "additionalProperties": false,
+      "properties": {
+        "sheet": { "type": "string" },
+        "at": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/frac" } }
+      }
+    },
+    "scene": {
+      "type": "object",
+      "required": ["id", "start", "end"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string" },
+        "module": { "type": "string", "description": "Draw module: built-in name (src/video/scenes/<name>.js, e.g. 'card') or './path.js' relative to the pack. Default: the scene id." },
+        "start": { "$ref": "#/$defs/seconds" },
+        "end": { "$ref": "#/$defs/seconds" },
+        "lead": { "$ref": "#/$defs/seconds" },
+        "tail": { "$ref": "#/$defs/seconds" },
+        "assets": { "type": "array", "items": { "type": "string", "pattern": "^(paper|tex:[A-Za-z0-9_-]+|[A-Za-z0-9_-]+(\\.sticker)?)$" } },
+        "cues": { "type": "array", "items": { "$ref": "#/$defs/cue" } },
+        "copy": { "type": "object", "description": "On-screen text. Free-form for custom modules; the 'card' module reads copy.lines." },
+        "params": { "type": "object", "description": "Module-specific settings (see the module header)." },
+        "dialogue": { "type": "array", "description": "Spoken lines with no on-screen text.", "items": { "$ref": "#/$defs/dialogueLine" } }
+      }
+    },
+    "voice": {
+      "type": "object",
+      "required": ["voice"],
+      "additionalProperties": false,
+      "properties": {
+        "voice": { "type": "string", "description": "edge-tts voice name, e.g. zh-CN-XiaoxiaoNeural." },
+        "rate": { "type": "string", "pattern": "^[+-]\\d+%$" },
+        "pitch": { "type": "string", "pattern": "^[+-]\\d+Hz$" },
+        "gain": { "type": "number", "minimum": 0, "maximum": 2 },
+        "pan": { "type": "number", "minimum": -1, "maximum": 1 }
+      }
+    },
+    "dialogueLine": {
+      "type": "object",
+      "required": ["at", "speaker", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "at": { "$ref": "#/$defs/seconds" },
+        "speaker": { "type": "string" },
+        "text": { "type": "string", "minLength": 1 },
+        "rate": { "type": "string", "pattern": "^[+-]\\d+%$" },
+        "pitch": { "type": "string", "pattern": "^[+-]\\d+Hz$" },
+        "gain": { "type": "number", "minimum": 0, "maximum": 2 },
+        "pan": { "type": "number", "minimum": -1, "maximum": 1 },
+        "maxDur": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "cue": {
+      "type": "object",
+      "required": ["t", "sfx"],
+      "additionalProperties": false,
+      "properties": {
+        "t": { "$ref": "#/$defs/seconds" },
+        "sfx": { "type": "string" },
+        "gain": { "type": "number", "minimum": 0, "maximum": 2 },
+        "pan": { "type": "number", "minimum": -1, "maximum": 1 },
+        "panTo": { "type": "number", "minimum": -1, "maximum": 1 },
+        "panLfo": { "type": "number", "minimum": 0 },
+        "pitch": { "type": "number", "exclusiveMinimum": 0 },
+        "dur": { "type": "number", "exclusiveMinimum": 0 },
+        "note": { "$ref": "#/$defs/note" }
+      }
+    },
+    "music": {
+      "type": "object",
+      "required": ["bpm", "chords", "sections"],
+      "additionalProperties": false,
+      "properties": {
+        "bpm": { "type": "number", "minimum": 30, "maximum": 300 },
+        "key": { "type": "string" },
+        "chordTones": {
+          "type": "object",
+          "additionalProperties": { "type": "array", "minItems": 3, "items": { "type": "string", "pattern": "^[A-G](#|b)?$" } }
+        },
+        "chords": {
+          "type": "array",
+          "items": { "type": "array", "prefixItems": [{ "$ref": "#/$defs/seconds" }, { "$ref": "#/$defs/seconds" }, { "type": "string" }], "minItems": 3, "maxItems": 3 }
+        },
+        "theme": {
+          "type": "array",
+          "description": "Bars of [note, start8th, length8ths].",
+          "items": {
+            "type": "array",
+            "items": { "type": "array", "prefixItems": [{ "$ref": "#/$defs/note" }, { "type": "integer", "minimum": 0, "maximum": 7 }, { "type": "integer", "minimum": 1 }], "minItems": 3, "maxItems": 3 }
+          }
+        },
+        "sections": { "type": "array", "items": { "$ref": "#/$defs/section" } }
+      }
+    },
+    "section": {
+      "type": "object",
+      "required": ["id", "start", "end", "layers"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "start": { "$ref": "#/$defs/seconds" },
+        "end": { "$ref": "#/$defs/seconds" },
+        "note": { "type": "string" },
+        "layers": { "type": "array", "items": { "$ref": "#/$defs/layer" } }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "required": ["op"],
+      "properties": {
+        "op": { "enum": ["pads", "arp", "melody", "strum", "bassline", "drums", "hit", "pulse", "clapRoll", "oompah", "halftime", "fingerpick", "rootBass", "finalChord", "phrase"] },
+        "a": { "$ref": "#/$defs/seconds" },
+        "z": { "$ref": "#/$defs/seconds" },
+        "at": { "$ref": "#/$defs/seconds" },
+        "gain": { "type": "number", "minimum": 0 },
+        "pan": { "type": "number", "minimum": -1, "maximum": 1 },
+        "step": { "anyOf": [{ "type": "number", "exclusiveMinimum": 0 }, { "enum": ["bar", "halfbar", "beat", "8th", "16th"] }] }
+      }
+    }
+  }
+}

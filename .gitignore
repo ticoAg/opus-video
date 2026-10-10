@@ -1,0 +1,24 @@
+node_modules/
+.DS_Store
+
+# Generated / large artifacts (never version these)
+build/
+out/
+input-pictures/
+video-examples/
+
+# Logs
+*.log
+build.log
+
+# Local Python venvs (e.g. edge-tts)
+.venv*/
+venv/
+
+# TTS voice caches, backups, bundles
+voices/
+**/voices/
+*-backup.json
+*.bundle
+*.bundle.part*
+*.part

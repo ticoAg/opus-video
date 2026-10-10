@@ -1,0 +1,1227 @@
+{
+  "$schema": "../story.schema.json",
+  "meta": {
+    "id": "emperors-new-clothes",
+    "title": "The Emperor's New Clothes",
+    "description": "Animated watercolour-and-ink short of Andersen's tale (Chinese on-screen copy). Procedural characters (src/video/scenes/emperor-*.js) on reused sketchbook paper/house/cloud cut-outs.",
+    "source": "H. C. Andersen, 1837 (public domain)",
+    "language": "zh",
+    "duration": 54,
+    "fps": 30,
+    "size": {
+      "width": 1920,
+      "height": 1080
+    },
+    "background": "#f7efe2"
+  },
+  "voices": {
+    "narrator": {
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-5%",
+      "gain": 1,
+      "pan": 0
+    },
+    "emperor": {
+      "voice": "zh-CN-YunjianNeural",
+      "pitch": "-8Hz",
+      "rate": "-10%",
+      "gain": 1,
+      "pan": -0.15
+    },
+    "weaver1": {
+      "voice": "zh-CN-YunxiNeural",
+      "pitch": "+4Hz",
+      "gain": 0.95,
+      "pan": 0.25
+    },
+    "weaver2": {
+      "voice": "zh-TW-YunJheNeural",
+      "pitch": "-4Hz",
+      "gain": 0.95,
+      "pan": -0.25
+    },
+    "ministers": {
+      "voice": "zh-CN-YunyangNeural",
+      "pitch": "+2Hz",
+      "gain": 0.95,
+      "pan": 0.3
+    },
+    "child": {
+      "voice": "zh-CN-YunxiaNeural",
+      "pitch": "+10Hz",
+      "rate": "+5%",
+      "gain": 1.35,
+      "pan": 0.1
+    }
+  },
+  "assets": {
+    "sources": {
+      "sheets": []
+    },
+    "sprites": {},
+    "textures": {},
+    "files": {
+      "paper": "../../build/paper.png",
+      "housesRow.sticker": "../../build/assets/housesRow.sticker.png",
+      "houseBlue.sticker": "../../build/assets/houseBlue.sticker.png",
+      "houseStone.sticker": "../../build/assets/houseStone.sticker.png",
+      "cloud1.sticker": "../../build/assets/cloud1.sticker.png"
+    }
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "title": "Title card",
+      "module": "emperor-court",
+      "start": 0,
+      "end": 8,
+      "assets": [
+        "paper"
+      ],
+      "params": {
+        "beat": "title"
+      },
+      "copy": {
+        "lines": [
+          {
+            "text": "皇帝的新装",
+            "at": 0.6,
+            "dur": 1.4,
+            "y": 150,
+            "size": 140,
+            "font": "CJK",
+            "band": true,
+            "speaker": "narrator",
+            "say": "皇帝的新装。"
+          },
+          {
+            "text": "安徒生童话",
+            "at": 3,
+            "dur": 1.2,
+            "y": 270,
+            "size": 64,
+            "font": "CJK",
+            "color": "#6b4d8f",
+            "speaker": "narrator",
+            "say": "安徒生童话。"
+          },
+          {
+            "text": "The Emperor's New Clothes",
+            "at": 5.2,
+            "dur": 1.4,
+            "y": 1010,
+            "size": 52,
+            "font": "Hand",
+            "color": "#8a7060",
+            "band": true
+          }
+        ]
+      },
+      "cues": [
+        {
+          "t": 0.05,
+          "sfx": "pageTurn",
+          "gain": 0.7
+        },
+        {
+          "t": 0.6,
+          "sfx": "scribble",
+          "dur": 1.4,
+          "gain": 0.55,
+          "pan": -0.4,
+          "panTo": 0.4
+        },
+        {
+          "t": 3,
+          "sfx": "harp",
+          "gain": 0.45
+        },
+        {
+          "t": 5.2,
+          "sfx": "twinkle",
+          "gain": 0.4,
+          "note": "G5"
+        },
+        {
+          "t": 2.5,
+          "sfx": "swish",
+          "gain": 0.35,
+          "pan": 0.3
+        },
+        {
+          "t": 4.5,
+          "sfx": "swish",
+          "pitch": 1.1,
+          "gain": 0.35,
+          "pan": -0.3
+        },
+        {
+          "t": 6,
+          "sfx": "blush",
+          "gain": 0.35
+        }
+      ]
+    },
+    {
+      "id": "weavers",
+      "title": "Two weavers arrive",
+      "module": "emperor-court",
+      "start": 8,
+      "end": 18,
+      "lead": 0.5,
+      "assets": [
+        "paper"
+      ],
+      "params": {
+        "beat": "weavers"
+      },
+      "copy": {
+        "lines": [
+          {
+            "text": "城里来了两个织工…",
+            "at": 8.4,
+            "dur": 1.5,
+            "y": 130,
+            "size": 84,
+            "font": "CJK",
+            "band": true,
+            "out": 10.6,
+            "speaker": "narrator"
+          },
+          {
+            "text": "「我们织的布啊——」",
+            "at": 11,
+            "dur": 1.3,
+            "y": 130,
+            "size": 92,
+            "font": "CJK",
+            "color": "#6b4d8f",
+            "band": true,
+            "out": 13.6,
+            "speaker": "weaver1"
+          },
+          {
+            "text": "「傻瓜看不见！」",
+            "at": 14,
+            "dur": 1.4,
+            "y": 130,
+            "size": 110,
+            "font": "CJK",
+            "rot": -0.03,
+            "band": true,
+            "speaker": "weaver2",
+            "say": "傻瓜，是看不见的！"
+          }
+        ]
+      },
+      "cues": [
+        {
+          "t": 8,
+          "sfx": "step",
+          "pitch": 1,
+          "gain": 0.55,
+          "pan": 0.6
+        },
+        {
+          "t": 8.23,
+          "sfx": "step",
+          "pitch": 1.08,
+          "gain": 0.52,
+          "pan": 0.52
+        },
+        {
+          "t": 8.46,
+          "sfx": "step",
+          "pitch": 1,
+          "gain": 0.49000000000000005,
+          "pan": 0.43999999999999995
+        },
+        {
+          "t": 8.69,
+          "sfx": "step",
+          "pitch": 1.08,
+          "gain": 0.4600000000000001,
+          "pan": 0.36
+        },
+        {
+          "t": 8.92,
+          "sfx": "step",
+          "pitch": 1,
+          "gain": 0.43000000000000005,
+          "pan": 0.27999999999999997
+        },
+        {
+          "t": 9.15,
+          "sfx": "step",
+          "pitch": 1.08,
+          "gain": 0.4,
+          "pan": 0.19999999999999996
+        },
+        {
+          "t": 9.38,
+          "sfx": "step",
+          "pitch": 1,
+          "gain": 0.37000000000000005,
+          "pan": 0.12
+        },
+        {
+          "t": 9.61,
+          "sfx": "step",
+          "pitch": 1.08,
+          "gain": 0.3400000000000001,
+          "pan": 0.039999999999999925
+        },
+        {
+          "t": 10.6,
+          "sfx": "zip",
+          "gain": 0.3
+        },
+        {
+          "t": 11,
+          "sfx": "scribble",
+          "dur": 1.3,
+          "gain": 0.45
+        },
+        {
+          "t": 11.9,
+          "sfx": "swish",
+          "gain": 0.25,
+          "pan": -0.3
+        },
+        {
+          "t": 12.8,
+          "sfx": "swish",
+          "gain": 0.25,
+          "pan": 0.3
+        },
+        {
+          "t": 14,
+          "sfx": "boing",
+          "gain": 0.55
+        },
+        {
+          "t": 14.05,
+          "sfx": "blush",
+          "gain": 0.3
+        },
+        {
+          "t": 15.3,
+          "sfx": "whoosh",
+          "gain": 0.3,
+          "pan": -0.6
+        },
+        {
+          "t": 15.5,
+          "sfx": "gasp",
+          "gain": 0.45,
+          "pan": -0.5
+        }
+      ]
+    },
+    {
+      "id": "inspect",
+      "title": "Emperor inspects the invisible cloth",
+      "module": "emperor-court",
+      "start": 18,
+      "end": 30,
+      "lead": 0.45,
+      "assets": [
+        "paper"
+      ],
+      "params": {
+        "beat": "inspect"
+      },
+      "copy": {
+        "lines": [
+          {
+            "text": "皇帝亲自来看布…",
+            "at": 18.4,
+            "dur": 1.4,
+            "y": 130,
+            "size": 88,
+            "font": "CJK",
+            "band": true,
+            "out": 21.2,
+            "speaker": "narrator"
+          },
+          {
+            "text": "「多么华丽啊！」",
+            "at": 21.5,
+            "dur": 1.3,
+            "y": 130,
+            "size": 120,
+            "font": "CJK",
+            "color": "#c45c26",
+            "band": true,
+            "out": 24.7,
+            "speaker": "emperor"
+          },
+          {
+            "text": "（其实什么也没有）",
+            "at": 25,
+            "dur": 1.5,
+            "y": 130,
+            "size": 84,
+            "font": "CJK",
+            "color": "#8a7060",
+            "band": true,
+            "out": 27.2,
+            "speaker": "narrator",
+            "say": "其实，什么也没有。"
+          },
+          {
+            "text": "大臣们也跟着夸",
+            "at": 27.5,
+            "dur": 1.2,
+            "y": 130,
+            "size": 88,
+            "font": "CJK",
+            "band": true,
+            "speaker": "narrator",
+            "maxDur": 1.6
+          }
+        ]
+      },
+      "cues": [
+        {
+          "t": 18.2,
+          "sfx": "whoosh",
+          "gain": 0.4
+        },
+        {
+          "t": 18.3,
+          "sfx": "step",
+          "pitch": 0.8,
+          "gain": 0.5,
+          "pan": -0.6
+        },
+        {
+          "t": 18.55,
+          "sfx": "step",
+          "pitch": 0.88,
+          "gain": 0.5,
+          "pan": -0.5
+        },
+        {
+          "t": 18.8,
+          "sfx": "step",
+          "pitch": 0.8,
+          "gain": 0.5,
+          "pan": -0.39999999999999997
+        },
+        {
+          "t": 19.05,
+          "sfx": "step",
+          "pitch": 0.88,
+          "gain": 0.5,
+          "pan": -0.29999999999999993
+        },
+        {
+          "t": 19.3,
+          "sfx": "step",
+          "pitch": 0.8,
+          "gain": 0.5,
+          "pan": -0.19999999999999996
+        },
+        {
+          "t": 19.55,
+          "sfx": "step",
+          "pitch": 0.88,
+          "gain": 0.5,
+          "pan": -0.09999999999999998
+        },
+        {
+          "t": 18.4,
+          "sfx": "scribble",
+          "dur": 1.4,
+          "gain": 0.4
+        },
+        {
+          "t": 21.5,
+          "sfx": "shimmer",
+          "gain": 0.5
+        },
+        {
+          "t": 23,
+          "sfx": "gasp",
+          "gain": 0.3
+        },
+        {
+          "t": 25,
+          "sfx": "tick",
+          "gain": 0.6
+        },
+        {
+          "t": 25.35,
+          "sfx": "tick",
+          "gain": 0.6
+        },
+        {
+          "t": 25.6,
+          "sfx": "buzz",
+          "gain": 0.25,
+          "pan": -0.4
+        },
+        {
+          "t": 27.5,
+          "sfx": "puff",
+          "gain": 0.4
+        },
+        {
+          "t": 27.55,
+          "sfx": "hooray",
+          "gain": 0.25
+        },
+        {
+          "t": 28.6,
+          "sfx": "whoosh",
+          "gain": 0.55
+        },
+        {
+          "t": 28.65,
+          "sfx": "zip",
+          "gain": 0.35
+        },
+        {
+          "t": 28.95,
+          "sfx": "blush",
+          "gain": 0.45
+        }
+      ],
+      "dialogue": [
+        {
+          "at": 28.9,
+          "speaker": "ministers",
+          "text": "漂亮极了！",
+          "gain": 1.3
+        }
+      ]
+    },
+    {
+      "id": "procession",
+      "title": "The grand procession",
+      "module": "emperor-parade",
+      "start": 30,
+      "end": 40,
+      "lead": 0.4,
+      "assets": [
+        "paper",
+        "housesRow.sticker",
+        "houseBlue.sticker",
+        "houseStone.sticker",
+        "cloud1.sticker"
+      ],
+      "params": {
+        "beats": {
+          "gust": 3.5,
+          "hooray": 6.5,
+          "freeze": 13.2,
+          "resume": 18
+        }
+      },
+      "copy": {
+        "lines": [
+          {
+            "text": "盛大的游行开始了",
+            "at": 30.4,
+            "dur": 1.4,
+            "y": 120,
+            "size": 88,
+            "font": "CJK",
+            "band": true,
+            "out": 33.2,
+            "speaker": "narrator"
+          },
+          {
+            "text": "旗帜飘扬 · 鼓声阵阵",
+            "at": 33.5,
+            "dur": 1.4,
+            "y": 120,
+            "size": 84,
+            "font": "CJK",
+            "color": "#2b3157",
+            "band": true,
+            "out": 36.2,
+            "speaker": "narrator"
+          },
+          {
+            "text": "「真美！真美！」",
+            "at": 36.5,
+            "dur": 1.5,
+            "y": 120,
+            "size": 120,
+            "font": "CJK",
+            "color": "#c45c26",
+            "band": true,
+            "speaker": "ministers",
+            "gain": 1.35
+          }
+        ]
+      },
+      "cues": [
+        {
+          "t": 30.2,
+          "sfx": "drumroll",
+          "dur": 1.2,
+          "gain": 0.55
+        },
+        {
+          "t": 30.4,
+          "sfx": "scribble",
+          "dur": 1.4,
+          "gain": 0.45
+        },
+        {
+          "t": 33.5,
+          "sfx": "swish",
+          "gain": 0.5,
+          "pan": -0.5
+        },
+        {
+          "t": 34,
+          "sfx": "swish",
+          "pitch": 1.1,
+          "gain": 0.45,
+          "pan": 0.5
+        },
+        {
+          "t": 36.5,
+          "sfx": "hooray",
+          "gain": 0.5
+        },
+        {
+          "t": 36.8,
+          "sfx": "confetti",
+          "gain": 0.4
+        }
+      ],
+      "dialogue": [
+        {
+          "at": 38.3,
+          "speaker": "emperor",
+          "text": "嗯，好看！",
+          "gain": 0.85
+        }
+      ]
+    },
+    {
+      "id": "child",
+      "title": "A child shouts the truth",
+      "module": "emperor-reveal",
+      "start": 40,
+      "end": 47,
+      "lead": 0.4,
+      "assets": [
+        "paper",
+        "housesRow.sticker",
+        "houseBlue.sticker",
+        "houseStone.sticker",
+        "cloud1.sticker"
+      ],
+      "params": {
+        "beat": "child"
+      },
+      "copy": {
+        "lines": [
+          {
+            "text": "人群里，一个孩子喊道：",
+            "at": 40.4,
+            "dur": 1.2,
+            "y": 120,
+            "size": 76,
+            "font": "CJK",
+            "band": true,
+            "out": 42.3,
+            "speaker": "narrator"
+          },
+          {
+            "text": "「他什么都没穿！」",
+            "at": 42.5,
+            "dur": 0.5,
+            "y": 330,
+            "size": 120,
+            "font": "CJK",
+            "color": "#b33a2b",
+            "rot": -0.04,
+            "x": 1040,
+            "out": 43.05,
+            "speaker": "child"
+          },
+          {
+            "text": "嘘——大家愣住了",
+            "at": 45,
+            "dur": 1.2,
+            "y": 120,
+            "size": 84,
+            "font": "CJK",
+            "color": "#6b4d8f",
+            "band": true,
+            "speaker": "narrator",
+            "say": "嘘……大家都愣住了。"
+          }
+        ]
+      },
+      "cues": [
+        {
+          "t": 40.4,
+          "sfx": "scribble",
+          "dur": 1.2,
+          "gain": 0.4
+        },
+        {
+          "t": 42.4,
+          "sfx": "whoosh",
+          "gain": 0.3
+        },
+        {
+          "t": 42.5,
+          "sfx": "boop",
+          "gain": 0.7
+        },
+        {
+          "t": 42.55,
+          "sfx": "pop",
+          "gain": 0.5
+        },
+        {
+          "t": 42.7,
+          "sfx": "gasp",
+          "gain": 0.55
+        },
+        {
+          "t": 43.2,
+          "sfx": "ding",
+          "gain": 0.65
+        },
+        {
+          "t": 43.6,
+          "sfx": "blush",
+          "gain": 0.5
+        },
+        {
+          "t": 45,
+          "sfx": "nightfall",
+          "dur": 1.5,
+          "gain": 0.35
+        },
+        {
+          "t": 45.2,
+          "sfx": "sadTrombone",
+          "gain": 0.3
+        }
+      ]
+    },
+    {
+      "id": "ending",
+      "title": "The truth shines",
+      "module": "emperor-reveal",
+      "start": 47,
+      "end": 54,
+      "lead": 0.4,
+      "assets": [
+        "paper",
+        "housesRow.sticker",
+        "houseBlue.sticker",
+        "houseStone.sticker",
+        "cloud1.sticker"
+      ],
+      "params": {
+        "beat": "ending"
+      },
+      "copy": {
+        "lines": [
+          {
+            "text": "真话，像阳光一样亮",
+            "at": 47.4,
+            "dur": 1.5,
+            "y": 120,
+            "size": 96,
+            "font": "CJK",
+            "band": true,
+            "speaker": "narrator"
+          },
+          {
+            "text": "皇帝却只好硬着头皮走下去",
+            "at": 49.6,
+            "dur": 1.4,
+            "y": 235,
+            "size": 66,
+            "font": "CJK",
+            "color": "#8a7060",
+            "band": true,
+            "speaker": "narrator"
+          },
+          {
+            "text": "完",
+            "at": 52,
+            "dur": 0.8,
+            "y": 560,
+            "size": 130,
+            "font": "CJK",
+            "x": 1560,
+            "seal": true,
+            "speaker": "narrator",
+            "say": "完。"
+          }
+        ]
+      },
+      "cues": [
+        {
+          "t": 47.4,
+          "sfx": "sunrise",
+          "dur": 1.5,
+          "gain": 0.5
+        },
+        {
+          "t": 47.6,
+          "sfx": "hooray",
+          "gain": 0.3
+        },
+        {
+          "t": 48.2,
+          "sfx": "step",
+          "pitch": 0.75,
+          "gain": 0.35,
+          "pan": -0.2
+        },
+        {
+          "t": 48.8,
+          "sfx": "step",
+          "pitch": 0.75,
+          "gain": 0.35,
+          "pan": -0.12000000000000001
+        },
+        {
+          "t": 49.4,
+          "sfx": "step",
+          "pitch": 0.75,
+          "gain": 0.35,
+          "pan": -0.04000000000000001
+        },
+        {
+          "t": 50,
+          "sfx": "step",
+          "pitch": 0.75,
+          "gain": 0.35,
+          "pan": 0.03999999999999998
+        },
+        {
+          "t": 50.6,
+          "sfx": "step",
+          "pitch": 0.75,
+          "gain": 0.35,
+          "pan": 0.12
+        },
+        {
+          "t": 51.2,
+          "sfx": "step",
+          "pitch": 0.75,
+          "gain": 0.35,
+          "pan": 0.2
+        },
+        {
+          "t": 49.6,
+          "sfx": "scribble",
+          "dur": 1.4,
+          "gain": 0.4
+        },
+        {
+          "t": 52,
+          "sfx": "ding",
+          "gain": 0.75
+        },
+        {
+          "t": 52.05,
+          "sfx": "boom",
+          "gain": 0.35
+        },
+        {
+          "t": 52.4,
+          "sfx": "shimmer",
+          "gain": 0.45
+        }
+      ]
+    }
+  ],
+  "music": {
+    "bpm": 100,
+    "key": "G major",
+    "chordTones": {
+      "G": [
+        "G",
+        "B",
+        "D"
+      ],
+      "D": [
+        "D",
+        "F#",
+        "A"
+      ],
+      "Em": [
+        "E",
+        "G",
+        "B"
+      ],
+      "C": [
+        "C",
+        "E",
+        "G"
+      ],
+      "Am": [
+        "A",
+        "C",
+        "E"
+      ],
+      "Bm": [
+        "B",
+        "D",
+        "F#"
+      ]
+    },
+    "chords": [
+      [
+        0,
+        4,
+        "G"
+      ],
+      [
+        4,
+        8,
+        "Em"
+      ],
+      [
+        8,
+        12,
+        "C"
+      ],
+      [
+        12,
+        16,
+        "G"
+      ],
+      [
+        16,
+        18,
+        "D"
+      ],
+      [
+        18,
+        22,
+        "Em"
+      ],
+      [
+        22,
+        26,
+        "Am"
+      ],
+      [
+        26,
+        30,
+        "D"
+      ],
+      [
+        30,
+        34,
+        "G"
+      ],
+      [
+        34,
+        38,
+        "C"
+      ],
+      [
+        38,
+        40,
+        "D"
+      ],
+      [
+        40,
+        43,
+        "Em"
+      ],
+      [
+        43,
+        47,
+        "Am"
+      ],
+      [
+        47,
+        51,
+        "G"
+      ],
+      [
+        51,
+        54,
+        "G"
+      ]
+    ],
+    "theme": [
+      [
+        [
+          "D5",
+          0,
+          1
+        ],
+        [
+          "E5",
+          1,
+          1
+        ],
+        [
+          "G5",
+          2,
+          2
+        ],
+        [
+          "A5",
+          4,
+          1
+        ],
+        [
+          "G5",
+          5,
+          1
+        ],
+        [
+          "E5",
+          6,
+          2
+        ]
+      ],
+      [
+        [
+          "B4",
+          0,
+          2
+        ],
+        [
+          "A4",
+          2,
+          1
+        ],
+        [
+          "G4",
+          3,
+          1
+        ],
+        [
+          "D5",
+          4,
+          3
+        ]
+      ]
+    ],
+    "sections": [
+      {
+        "id": "title",
+        "start": 0,
+        "end": 8,
+        "layers": [
+          {
+            "op": "pads",
+            "a": 0,
+            "z": 8,
+            "gain": 0.2,
+            "cutoff": 1100
+          },
+          {
+            "op": "arp",
+            "a": 1,
+            "z": 8,
+            "inst": "glock",
+            "gain": 0.22,
+            "step": "beat",
+            "pan": -0.15
+          }
+        ]
+      },
+      {
+        "id": "weavers",
+        "start": 8,
+        "end": 18,
+        "layers": [
+          {
+            "op": "pads",
+            "a": 8,
+            "z": 18,
+            "gain": 0.16,
+            "cutoff": 900
+          },
+          {
+            "op": "fingerpick",
+            "a": 9,
+            "z": 18,
+            "gain": 0.2
+          },
+          {
+            "op": "rootBass",
+            "a": 10,
+            "z": 18,
+            "step": "halfbar",
+            "dur": 0.85,
+            "drive": 1.1,
+            "gain": 0.28
+          }
+        ]
+      },
+      {
+        "id": "inspect",
+        "start": 18,
+        "end": 30,
+        "layers": [
+          {
+            "op": "pads",
+            "a": 18,
+            "z": 30,
+            "gain": 0.18,
+            "cutoff": 800
+          },
+          {
+            "op": "arp",
+            "a": 19,
+            "z": 28,
+            "inst": "musicbox",
+            "gain": 0.2,
+            "step": "beat"
+          },
+          {
+            "op": "phrase",
+            "at": 25,
+            "inst": "glock",
+            "notes": [
+              "E5",
+              "D5",
+              "B4",
+              "A4"
+            ],
+            "step": 0.28,
+            "gain": 0.25,
+            "pan": 0.2
+          }
+        ]
+      },
+      {
+        "id": "procession",
+        "start": 30,
+        "end": 40,
+        "layers": [
+          {
+            "op": "oompah",
+            "a": 30,
+            "z": 40,
+            "tuba": 0.28,
+            "chord": 0.18,
+            "woodblock": 0.35
+          },
+          {
+            "op": "drums",
+            "a": 30,
+            "z": 40,
+            "kicks": [
+              0,
+              2
+            ],
+            "claps": [
+              1,
+              3
+            ],
+            "gain": 0.55
+          },
+          {
+            "op": "melody",
+            "bars": [
+              0
+            ],
+            "at": 32,
+            "inst": "marimba",
+            "gain": 0.32,
+            "pan": -0.1
+          }
+        ]
+      },
+      {
+        "id": "child",
+        "start": 40,
+        "end": 47,
+        "layers": [
+          {
+            "op": "pads",
+            "a": 40,
+            "z": 47,
+            "gain": 0.14,
+            "cutoff": 700
+          },
+          {
+            "op": "hit",
+            "bus": "music",
+            "inst": "glock",
+            "note": "E6",
+            "at": 42.5,
+            "gain": 0.4
+          },
+          {
+            "op": "phrase",
+            "at": 42.7,
+            "inst": "marimba",
+            "notes": [
+              "G5",
+              "E5",
+              "B4",
+              "G4"
+            ],
+            "step": 0.2,
+            "gain": 0.3
+          }
+        ]
+      },
+      {
+        "id": "ending",
+        "start": 47,
+        "end": 54,
+        "layers": [
+          {
+            "op": "pads",
+            "a": 47,
+            "z": 54,
+            "gain": 0.22,
+            "cutoff": 1200
+          },
+          {
+            "op": "melody",
+            "bars": [
+              1
+            ],
+            "at": 47.5,
+            "inst": "musicbox",
+            "gain": 0.35,
+            "pan": 0.1
+          },
+          {
+            "op": "finalChord",
+            "at": 52,
+            "chord": "G",
+            "extra": [
+              "G5",
+              "B5",
+              "D6"
+            ]
+          },
+          {
+            "op": "phrase",
+            "at": 52.2,
+            "inst": "glock",
+            "notes": [
+              "G5",
+              "D5",
+              "B4",
+              "G4",
+              "G5"
+            ],
+            "step": 0.16,
+            "gain": 0.28
+          }
+        ]
+      }
+    ]
+  }
+}
