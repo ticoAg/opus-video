@@ -8,6 +8,24 @@ list, so each pop, tweet, splash and buzz lands on its frame.
 
 Output: `out/sketchbook.mp4` (H.264 + AAC).
 
+## Story to video
+
+The same engine turns any story into a narrated short: the narration comes
+first (TTS through a pluggable provider, or a recording), its phrases are
+timed, and scenes, captions, music and sound effects are laid on that clock.
+Agents follow the `story-to-video` skill (`.claude/skills/story-to-video/`);
+`CLAUDE.md` maps the repo. The reusable drawing kit lives in `src/video/kit/`
+(see it all with `pnpm kit:sheet`), and `stories/goodnight-little-fox` is a
+complete worked example, a bedtime story on a recorded narration.
+
+```sh
+pnpm story:new my-story --title "…"     # then write stories/my-story/narration.json
+STORY=my-story pnpm narrate             # TTS -> narration + phrase timing
+STORY=my-story pnpm captions --write    # captions written in as they are spoken
+STORY=my-story pnpm qa                  # checks + stills to look at
+STORY=my-story pnpm audio && STORY=my-story pnpm video && STORY=my-story pnpm share
+```
+
 ## The story
 
 | Time | Scene | What happens |
@@ -108,12 +126,15 @@ input-pictures/   the hand-drawn pages (source)
 video-examples/   reference videos
 assets/fonts/     Caveat Brush, Patrick Hand, ZCOOL KuaiLe (SIL OFL)
 src/extract/      photo -> assets
-src/video/        engine, scenes, renderer
-src/audio/        synth, sfx, score, mixer
+src/video/        engine, scenes, renderer; kit/ = the reusable storybook kit
+src/audio/        synth, sfx, score, mixer, TTS providers, narration timing
+src/tools/        narrate, align, captions, qa, share, kit-sheet, story:new, transcribe
 src/story/        story-pack loader, validator, shared vocabulary
 stories/          story packs (story.json per film) + schema
+templates/        starting points for new packs
+.claude/skills/   the story-to-video method, for agents
 build/            generated assets, stills, soundtrack (git-ignored)
-out/              the finished film
+out/              the finished films (git-ignored; published as release assets)
 ```
 
 ## Credits & licence

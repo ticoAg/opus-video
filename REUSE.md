@@ -17,6 +17,16 @@ src/audio/voices.js     pnpm voices: spoken lines (voices cast + speaker) -> <bu
 Format reference: [stories/SCHEMA.md](stories/SCHEMA.md) and
 [stories/story.schema.json](stories/story.schema.json).
 
+## The quick route for a told story
+
+For a story that is read aloud, start from the narrated template and let the
+narration set the timing: `pnpm story:new <id> --title "…"`, write the script
+in `narration.json`, `pnpm narrate` (TTS) or `pnpm align` (a recording),
+`pnpm captions --write`, then draw the scenes with the storybook kit
+(`src/video/kit/`). The `story-to-video` skill (`.claude/skills/`) walks
+through it; `stories/goodnight-little-fox` is the worked example. Rendered
+films are published as release assets, not committed.
+
 ## A new pack = new folder + assets + story.json (engine unchanged)
 
 1. **Start from the starter pack.**
@@ -70,9 +80,9 @@ Format reference: [stories/SCHEMA.md](stories/SCHEMA.md) and
    If the pack only uses `assets.files` (no page photos), skip extraction:
    `STORY=the-tinderbox pnpm voices && STORY=the-tinderbox pnpm audio && STORY=the-tinderbox pnpm video`.
    Narration/character voices are optional: add a `voices` cast and `speaker`
-   on copy lines (see "Spoken lines" in stories/SCHEMA.md), or bring a recorded
-   narration with `recordings` and time the film to it (see "Recorded
-   narration"; `stories/goodnight-little-fox` animates a bedtime story that way:
+   on copy lines (see "Spoken lines" in stories/SCHEMA.md), or put the
+   narration first and time the film to it (see "Narration first";
+   `stories/goodnight-little-fox` animates a recorded bedtime story that way:
    put its audio at `stories/goodnight-little-fox/input-audio/narration.wav`,
    then `STORY=goodnight-little-fox pnpm audio && STORY=goodnight-little-fox pnpm video`).
    (`pnpm build` without `STORY` still builds the sketchbook exactly as before.)
