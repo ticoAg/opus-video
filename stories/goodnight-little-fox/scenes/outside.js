@@ -7,7 +7,7 @@ import {
   W, H, PAL, frame, sky, moon, bigStar, starDust, ridge, hill, roundTree, pine, treeHouse, brookPath, brook, stone,
   lantern, firefly, note, swirl, glow, camera, key, titleText, wash, sparkle, star, clamp, lerp, invLerp, smooth,
   ease, hash, popK, stroke, shape, clipShape, blob, dot, bez, taper, limb, zoomOnto,
-} from './kit.js';
+} from '../../../src/video/kit/index.js';
 
 // World layout shared by the moonrise, brook, hush and goodnight beats.
 const MOON = [560, 250];

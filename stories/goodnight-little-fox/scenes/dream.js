@@ -6,7 +6,7 @@
 import {
   W, H, PAL, frame, sky, fox, cloud, bigStar, starDust, glow, camera, wash, star, stroke,
   lerp, invLerp, smooth, ease, hash,
-} from './kit.js';
+} from '../../../src/video/kit/index.js';
 
 export function draw(ctx, t, scene) {
   const A = { iris: [71.0, 72.9], ring: 74.6, wide: [75.4, 79.4], rock: 79.2, ...scene.params?.at };

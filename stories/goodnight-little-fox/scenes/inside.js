@@ -4,7 +4,7 @@
 import {
   ROOM, frame, room, fox, cloud, doodle, zzz, glow, heart, sparkle, camera, key,
   clamp, lerp, invLerp, smooth, ease, popK, inkText,
-} from './kit.js';
+} from '../../../src/video/kit/index.js';
 
 const BEATS = { den, drowsy, asleep };
 
