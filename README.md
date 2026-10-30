@@ -16,7 +16,9 @@ timed, and scenes, captions, music and sound effects are laid on that clock.
 Agents follow the `story-to-video` skill (`.claude/skills/story-to-video/`);
 `CLAUDE.md` maps the repo. The reusable drawing kit lives in `src/video/kit/`
 (see it all with `pnpm kit:sheet`), and `stories/goodnight-little-fox` is a
-complete worked example, a bedtime story on a recorded narration.
+complete worked example, a bedtime story on a recorded narration. Films and
+their source media are delivered to Google Drive; the packs and everything
+reusable stay here (`.claude/skills/story-to-video/references/delivery.md`).
 
 ```sh
 pnpm story:new my-story --title "…"     # then write stories/my-story/narration.json
@@ -24,6 +26,7 @@ STORY=my-story pnpm narrate             # TTS -> narration + phrase timing
 STORY=my-story pnpm captions --write    # captions written in as they are spoken
 STORY=my-story pnpm qa                  # checks + stills to look at
 STORY=my-story pnpm audio && STORY=my-story pnpm video && STORY=my-story pnpm share
+STORY=my-story pnpm drive push          # films + source media -> Google Drive
 ```
 
 ## The story
@@ -128,13 +131,13 @@ assets/fonts/     Caveat Brush, Patrick Hand, ZCOOL KuaiLe (SIL OFL)
 src/extract/      photo -> assets
 src/video/        engine, scenes, renderer; kit/ = the reusable storybook kit
 src/audio/        synth, sfx, score, mixer, TTS providers, narration timing
-src/tools/        narrate, align, captions, qa, share, kit-sheet, story:new, transcribe
+src/tools/        narrate, align, captions, qa, share, drive, kit-sheet, story:new, transcribe
 src/story/        story-pack loader, validator, shared vocabulary
 stories/          story packs (story.json per film) + schema
 templates/        starting points for new packs
 .claude/skills/   the story-to-video method, for agents
 build/            generated assets, stills, soundtrack (git-ignored)
-out/              the finished films (git-ignored; published as release assets)
+out/              the finished films (git-ignored; delivered to Google Drive)
 ```
 
 ## Credits & licence

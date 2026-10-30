@@ -1,11 +1,12 @@
-// Package a finished film for sharing and for a GitHub release.
+// Package a finished film for sharing.
 //
 //   STORY=<id> pnpm share [--crf 23]
 //
 // out/<id>.mp4 (the master from `pnpm video`) -> out/<id>-share.mp4, a
-// lighter copy for phones and chats, and out/<id>-release.md, notes to paste
-// into the release (title, description, scenes, files). Films are published
-// as release assets, not committed (see .claude/skills/story-to-video).
+// lighter copy for phones and chats, and out/<id>-release.md, notes on the
+// film (title, description, scenes, files, the commit of its pack). Films are
+// delivered with `pnpm drive push`, never committed (see
+// .claude/skills/story-to-video).
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -26,12 +27,16 @@ const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=dura
 const info = JSON.parse(probe.stdout);
 const v = info.streams.find((s) => s.width) ?? {};
 const secs = Number(info.format.duration).toFixed(0);
+// The commit holding the pack, so the film can be rebuilt from its source.
+const git = (...a) => spawnSync('git', a, { cwd: ROOT, encoding: 'utf8' }).stdout?.trim() ?? '';
+const rev = git('rev-parse', '--short', 'HEAD');
+const dirty = rev && git('status', '--porcelain', '--', path.relative(ROOT, story.dir), 'src');
 const notes = [
   `## ${story.meta.title}`,
   '',
   story.meta.description || '',
   '',
-  `${secs} s · ${v.width}×${v.height} · ${fps(v.r_frame_rate)} fps · made with the story pack \`stories/${story.id}\``,
+  `${secs} s · ${v.width}×${v.height} · ${fps(v.r_frame_rate)} fps · made with the story pack \`stories/${story.id}\`${rev ? ` at ${rev}${dirty ? ' (with uncommitted changes)' : ''}` : ''}`,
   '',
   '| Time | Scene |',
   '| --- | --- |',

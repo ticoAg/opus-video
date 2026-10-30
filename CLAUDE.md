@@ -19,7 +19,7 @@ keep what we learn: the reusable drawing kit, the tools, and the method.
 | `src/video/kit/` | the storybook kit: ink marks, paper, night landscape, props, the fox, the room, captions, scene frame |
 | `src/video/engine.js`, `src/video/scenes/` | the sketchbook toolkit and built-in scene modules |
 | `src/audio/` | synth, sfx, score, mixer; `tts.js` (TTS providers), `align.js` (phrase timing), `voices.js` (TTS lines in slots) |
-| `src/tools/` | `narrate`, `align`, `captions`, `qa`, `share`, `kit-sheet`, `new-story`, `transcribe.py` |
+| `src/tools/` | `narrate`, `align`, `captions`, `qa`, `share`, `drive`, `kit-sheet`, `new-story`, `transcribe.py` |
 | `src/story/` | pack loader, validator, schema vocabulary; `stories/story.schema.json`, `stories/SCHEMA.md` |
 | `build/`, `out/` | generated (git-ignored) |
 
@@ -36,18 +36,22 @@ STORY=<id> pnpm qa                # checks + stills/sheets in build/<id>/qa/ (lo
 node src/video/render.js --story <id> --still 12.5 | --sheet 10 20 0.5 | --clip 10 20
 STORY=<id> pnpm video             # out/<id>.mp4
 STORY=<id> pnpm share             # out/<id>-share.mp4 + release notes
+STORY=<id> pnpm drive push        # films + source media -> Google Drive (pull: media back; no args: check)
 pnpm kit:sheet                    # build/kit-sheet.jpg: everything the kit draws
 ```
 
 Requirements: Node 20+, pnpm, ffmpeg. TTS: edge-tts, or `TTS_COMMAND`, or an
 OpenAI-compatible endpoint (`TTS_BASE_URL`, `TTS_API_KEY`) — see
-`src/audio/tts.js`. Transcription: `pip install faster-whisper`.
+`src/audio/tts.js`. Transcription: `pip install faster-whisper`. Delivery: Google
+Drive credentials (`GDRIVE_*`) in the environment, see
+`.claude/skills/story-to-video/references/delivery.md`.
 
 ## Rules
 
 - **Never commit media**: source audio/pictures and rendered films stay out of
-  git (`input-audio/`, `input-pictures/`, `build/`, `out/`). Films are
-  published as GitHub Release assets.
+  git (`input-audio/`, `input-pictures/`, `build/`, `out/`). Films and source
+  media go to Google Drive (`pnpm drive push`); packs are text and stay in
+  the repo.
 - **One clock**: scenes, cues, captions, camera keys and music share absolute
   film seconds, all taken from `narration.timing.json`.
 - **Deterministic**: no `Math.random` or wall-clock time in drawing or sound;

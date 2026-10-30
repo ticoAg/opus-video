@@ -69,7 +69,12 @@ film teaches you something.
   few more minutes.
 - In the cloud sandbox, Python tools that bundle their own CA list (edge-tts
   via certifi) fail TLS through the proxy; point that venv's certifi file at
-  `/root/.ccr/ca-bundle.crt`. Agent sessions cannot push tags (403): the user
-  makes releases.
+  `/root/.ccr/ca-bundle.crt`. Agent sessions cannot push tags (403) or
+  create releases: deliver through Drive (`pnpm drive push`).
+- Node's `fetch` ignores `HTTPS_PROXY`; call web APIs through `curl`, with
+  secrets in its stdin config so they never show in `ps` (`tts.js`,
+  `drive.js`).
+- The container is thrown away after the session, and the media with it.
+  Push the source media to Drive with the film, or it cannot be rebuilt.
 - Watching a process with `pgrep -f <pattern>` matches the watcher's own
   command line; watch a PID or a marker file instead.

@@ -24,8 +24,8 @@ narration set the timing: `pnpm story:new <id> --title "…"`, write the script
 in `narration.json`, `pnpm narrate` (TTS) or `pnpm align` (a recording),
 `pnpm captions --write`, then draw the scenes with the storybook kit
 (`src/video/kit/`). The `story-to-video` skill (`.claude/skills/`) walks
-through it; `stories/goodnight-little-fox` is the worked example. Rendered
-films are published as release assets, not committed.
+through it; `stories/goodnight-little-fox` is the worked example. Films
+and their source media go to Google Drive (`pnpm drive push`), not into git.
 
 ## A new pack = new folder + assets + story.json (engine unchanged)
 

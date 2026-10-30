@@ -1,6 +1,6 @@
 ---
 name: story-to-video
-description: Turn a story (a text, or a recorded narration) into a narrated, animated short with this repo's engine — narration first (TTS or recording), phrase timing, storyboard, procedural watercolour scenes from the storybook kit, captions written in as they are spoken, music and sound, QA, render, release. Use whenever asked to make a video, animation or short film from a story, script, poem or audio file.
+description: Turn a story (a text, or a recorded narration) into a narrated, animated short with this repo's engine — narration first (TTS or recording), phrase timing, storyboard, procedural watercolour scenes from the storybook kit, captions written in as they are spoken, music and sound, QA, render, delivery to Google Drive. Use whenever asked to make a video, animation or short film from a story, script, poem or audio file.
 ---
 
 # Story → video
@@ -22,6 +22,9 @@ story on a recorded narration); copy its patterns.
 - The voice: a provider from `src/audio/tts.js` — `edge-tts` (default, needs
   network), `command` (`$TTS_COMMAND`) or `openai` (`$TTS_BASE_URL`,
   `$TTS_API_KEY`). Keys live in the environment, never in files or chat.
+- Where the film goes: `pnpm drive` checks the Google Drive sign-in
+  (`references/delivery.md`). Working on a pack whose media is not in this
+  container (each session starts from a fresh clone)? `STORY=<id> pnpm drive pull`.
 
 ## 1. Start the pack
 
@@ -126,22 +129,26 @@ Re-check the cuts with `node src/video/render.js --sheet a z 0.25`.
 
 ```bash
 STORY=<id> pnpm video        # out/<id>.mp4, ~5–6 frames/s at 1080p (a 2-minute film ≈ 10 min)
-STORY=<id> pnpm share        # out/<id>-share.mp4 + out/<id>-release.md
+STORY=<id> pnpm share        # out/<id>-share.mp4 + out/<id>-release.md (notes, with the pack's commit)
+STORY=<id> pnpm drive push   # both films, the notes and the source media -> Drive: opus-video/<id>/
 ```
 
-Send both files to the user. Films are published as **GitHub Release assets**
-(tag `film/<id>-v1`, notes from `<id>-release.md`), never committed.
+Films and media never go into git; the pack and everything reusable do.
 
-- Commit the pack (not its media) on your task branch and push, so the
-  release can point at the exact source. Agent sessions can only push their
-  own branch: the user creates the tag and release on the Release page,
-  targeting that commit.
-- Put kit / tool / doc improvements in their own commits, so they can be
-  merged on their own. The pack itself stays out of `main` unless the user
-  wants it kept as an example.
+- Commit first, then `pnpm share`, so the notes name a commit that has the
+  pack. Commit the pack (text only) on your task branch and open the PR:
+  packs stay in the repo, as examples for the next film and as test material
+  for the kit. Kit / tool / doc improvements go in their own commits; add
+  what you learned to `references/lessons.md`.
+- Send the user the share copy and the Drive links that `push` prints. If
+  Drive is not set up, send both films with the file tool and point the user
+  at `references/delivery.md`.
+- A public GitHub Release is optional and made by the user (agent sessions
+  cannot push tags).
 
 ## References
 
 - `references/kit.md` — every kit function and its options.
 - `references/lessons.md` — mistakes already made once, and their fixes.
+- `references/delivery.md` — what goes to Drive and what stays in the repo; the one-time Drive setup.
 - `stories/goodnight-little-fox/` — the full worked example.

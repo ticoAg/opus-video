@@ -150,9 +150,10 @@ under it like under TTS lines:
 ]
 ```
 
-Like page photos, the audio is source media: `input-audio/` is git-ignored,
-and `pnpm story:validate` only warns when the file is missing or runs past
-the end of the film. `stories/goodnight-little-fox` is built this way.
+Like page photos, the audio is source media: `input-audio/` is git-ignored
+(`pnpm drive push` keeps a copy in Google Drive next to the film, `pnpm drive
+pull` brings it back), and `pnpm story:validate` only warns when the file is
+missing or runs past the end of the film. `stories/goodnight-little-fox` is built this way.
 
 ## Captions (narrated films)
 
