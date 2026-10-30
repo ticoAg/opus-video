@@ -70,7 +70,11 @@ Format reference: [stories/SCHEMA.md](stories/SCHEMA.md) and
    If the pack only uses `assets.files` (no page photos), skip extraction:
    `STORY=the-tinderbox pnpm voices && STORY=the-tinderbox pnpm audio && STORY=the-tinderbox pnpm video`.
    Narration/character voices are optional: add a `voices` cast and `speaker`
-   on copy lines (see "Spoken lines" in stories/SCHEMA.md).
+   on copy lines (see "Spoken lines" in stories/SCHEMA.md), or bring a recorded
+   narration with `recordings` and time the film to it (see "Recorded
+   narration"; `stories/goodnight-little-fox` animates a bedtime story that way:
+   put its audio at `stories/goodnight-little-fox/input-audio/narration.wav`,
+   then `STORY=goodnight-little-fox pnpm audio && STORY=goodnight-little-fox pnpm video`).
    (`pnpm build` without `STORY` still builds the sketchbook exactly as before.)
 
 ## What is data and what is still code

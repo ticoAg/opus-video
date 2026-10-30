@@ -26,6 +26,8 @@ const cjkPack = path.join(fontDir, 'NotoSansSC-Regular.otf');
 const cjkSys = '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc';
 if (fs.existsSync(cjkPack)) GlobalFonts.registerFromPath(cjkPack, 'CJK');
 else if (fs.existsSync(cjkSys)) GlobalFonts.registerFromPath(cjkSys, 'CJK');
+// Hand-lettered Chinese (ZCOOL KuaiLe, SIL OFL), shipped in assets/fonts.
+GlobalFonts.registerFromPath(path.join(fontDir, 'ZCOOLKuaiLe-Regular.ttf'), 'CJKHand');
 
 // ---------------------------------------------------------------------------
 // Assets (lazy, cached)

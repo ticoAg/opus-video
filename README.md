@@ -106,7 +106,7 @@ the same engine, and [stories/SCHEMA.md](stories/SCHEMA.md) for the format.
 ```
 input-pictures/   the hand-drawn pages (source)
 video-examples/   reference videos
-assets/fonts/     Caveat Brush, Patrick Hand (SIL OFL)
+assets/fonts/     Caveat Brush, Patrick Hand, ZCOOL KuaiLe (SIL OFL)
 src/extract/      photo -> assets
 src/video/        engine, scenes, renderer
 src/audio/        synth, sfx, score, mixer

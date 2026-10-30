@@ -1,0 +1,434 @@
+{
+  "$schema": "../story.schema.json",
+  "meta": {
+    "id": "goodnight-little-fox",
+    "title": "晚安，小狐狸",
+    "description": "A bedtime story animated to a recorded narration (Chinese): the moon rises, a little fox in her quilt listens to the leaves, the brook and the stars, and drifts off to sleep. Procedural watercolour-and-ink scenes (scenes/*.js); captions, cues and score timed to the narration's measured phrases.",
+    "source": "Narration: a recorded bedtime story supplied with the request (input-audio/narration.wav, kept out of git)",
+    "language": "zh",
+    "duration": 111,
+    "fps": 30,
+    "size": {"width": 1920, "height": 1080},
+    "background": "#121a3a"
+  },
+  "recordings": [
+    {"file": "input-audio/narration.wav", "at": 3.0, "gain": 1.0, "note": "the whole story, read aloud (103.7 s); the film opens with 3 s of title"}
+  ],
+  "scenes": [
+    {
+      "id": "moonrise",
+      "title": "The moon rises over the quiet hills",
+      "module": "./scenes/outside.js",
+      "start": 0,
+      "end": 16.4,
+      "params": {
+        "beat": "moonrise",
+        "at": {"title": 0.5, "titleOut": 4.0, "rise": [4.0, 7.4], "silver": 7.4, "sweep": [9.2, 12.6], "quilt": [13.3, 16.0], "push": [14.8, 16.6]}
+      },
+      "copy": {
+        "lines": [
+          {"text": "月亮升上了安静的山丘，", "beats": [[4.19, 6.23]]},
+          {"text": "银色的月光，轻轻，铺满大地，", "beats": [[7.38, 8.56], [9.22, 9.96], [10.91, 11.83]]},
+          {"text": "像一床看不见的软毯，", "beats": [[13.46, 15.49]]}
+        ]
+      },
+      "cues": [
+        {"t": 0.1, "sfx": "pageTurn", "gain": 0.35},
+        {"t": 0.5, "sfx": "scribble", "dur": 1.9, "pan": -0.3, "panTo": 0.3, "gain": 0.25},
+        {"t": 2.4, "sfx": "twinkle", "note": "G6", "gain": 0.25},
+        {"t": 4.0, "sfx": "harp", "dur": 1.6, "gain": 0.3},
+        {"t": 7.4, "sfx": "shimmer", "gain": 0.22},
+        {"t": 9.2, "sfx": "breeze", "dur": 3.6, "pan": -0.6, "panTo": 0.6, "gain": 0.3},
+        {"t": 13.4, "sfx": "shimmer", "gain": 0.16},
+        {"t": 14.9, "sfx": "swish", "gain": 0.18}
+      ]
+    },
+    {
+      "id": "den",
+      "title": "Wrapped in her quilt, listening to the leaves",
+      "module": "./scenes/inside.js",
+      "start": 16.4,
+      "end": 24.6,
+      "lead": 0.8,
+      "params": {
+        "beat": "den",
+        "at": {"settle": [15.6, 17.8], "wrap": [16.9, 17.9], "rustle": [19.9, 22.6], "twitch": [20.3, 21.5]}
+      },
+      "copy": {
+        "lines": [
+          {"text": "小狐狸裹着温暖的毯子，", "beats": [[16.84, 18.72]]},
+          {"text": "听着窗外树叶沙沙作响。", "beats": [[19.98, 22.29]]}
+        ]
+      },
+      "cues": [
+        {"t": 16.9, "sfx": "puff", "gain": 0.25},
+        {"t": 19.95, "sfx": "rustle", "dur": 1.4, "pan": 0.4, "gain": 0.5},
+        {"t": 21.0, "sfx": "rustle", "dur": 1.6, "pan": 0.55, "gain": 0.45}
+      ]
+    },
+    {
+      "id": "brook",
+      "title": "The brook hums through the forest",
+      "module": "./scenes/outside.js",
+      "start": 24.6,
+      "end": 36.2,
+      "lead": 0.9,
+      "params": {
+        "beat": "brook",
+        "at": {"pan": [24.9, 28.6], "shine": [27.0, 29.4], "notes": 29.8, "around": 32.0, "away": [34.0, 36.4]}
+      },
+      "copy": {
+        "lines": [
+          {"text": "不远处，小溪穿过森林，", "beats": [[25.29, 26.11], [27.06, 28.53]]},
+          {"text": "哼着轻柔的歌，", "beats": [[29.76, 31.17]]},
+          {"text": "歌声绕过石头，慢慢流远。", "beats": [[32.03, 33.37], [34.09, 35.01]]}
+        ]
+      },
+      "cues": [
+        {"t": 23.8, "sfx": "swish", "gain": 0.15},
+        {"t": 24.0, "sfx": "brook", "dur": 12.4, "pan": -0.2, "gain": 0.32},
+        {"t": 27.0, "sfx": "shimmer", "gain": 0.12}
+      ]
+    },
+    {
+      "id": "stars",
+      "title": "Stars, lanterns and goodnight lamps",
+      "module": "./scenes/outside.js",
+      "start": 36.2,
+      "end": 48.8,
+      "lead": 0.8,
+      "params": {
+        "beat": "stars",
+        "at": {"first": 36.62, "each": [38.45, 0.37], "lanterns": [42.45, 0.5], "fly": [45.3, 48.6]}
+      },
+      "copy": {
+        "lines": [
+          {"text": "星星，一颗接着一颗，亮起来，", "beats": [[36.66, 37.57], [38.42, 39.63], [40.25, 40.89]]},
+          {"text": "像挂在树梢的小灯笼，", "beats": [[42.32, 44.07]]},
+          {"text": "也像谁悄悄点亮的晚安灯。", "beats": [[45.51, 47.76]]}
+        ]
+      },
+      "cues": [
+        {"t": 35.6, "sfx": "breeze", "dur": 2.0, "gain": 0.15},
+        {"t": 36.62, "sfx": "twinkle", "note": "C6", "pan": -0.4, "gain": 0.4},
+        {"t": 38.45, "sfx": "twinkle", "note": "D6", "pan": 0.0, "gain": 0.3},
+        {"t": 38.82, "sfx": "twinkle", "note": "E6", "pan": 0.4, "gain": 0.3},
+        {"t": 39.19, "sfx": "twinkle", "note": "G6", "pan": -0.4, "gain": 0.3},
+        {"t": 39.56, "sfx": "twinkle", "note": "A6", "pan": 0.0, "gain": 0.3},
+        {"t": 39.93, "sfx": "twinkle", "note": "C7", "pan": 0.4, "gain": 0.3},
+        {"t": 40.3, "sfx": "twinkle", "note": "D7", "pan": -0.4, "gain": 0.3},
+        {"t": 40.67, "sfx": "twinkle", "note": "E7", "pan": 0.0, "gain": 0.3},
+        {"t": 41.04, "sfx": "twinkle", "note": "G7", "pan": 0.4, "gain": 0.3},
+        {"t": 42.45, "sfx": "musicbox", "note": "G5", "gain": 0.32},
+        {"t": 42.95, "sfx": "musicbox", "note": "C6", "gain": 0.32},
+        {"t": 43.45, "sfx": "musicbox", "note": "E6", "gain": 0.32},
+        {"t": 43.95, "sfx": "musicbox", "note": "G6", "gain": 0.32},
+        {"t": 45.3, "sfx": "shimmer", "gain": 0.12},
+        {"t": 45.87, "sfx": "twinkle", "note": "E7", "pan": -0.6, "gain": 0.18},
+        {"t": 46.41, "sfx": "twinkle", "note": "D7", "pan": -0.36, "gain": 0.18},
+        {"t": 46.9, "sfx": "twinkle", "note": "C7", "pan": -0.12, "gain": 0.18},
+        {"t": 47.44, "sfx": "twinkle", "note": "A6", "pan": 0.12, "gain": 0.18},
+        {"t": 47.89, "sfx": "twinkle", "note": "G6", "pan": 0.36, "gain": 0.18},
+        {"t": 48.29, "sfx": "twinkle", "note": "E6", "pan": 0.6, "gain": 0.18}
+      ]
+    },
+    {
+      "id": "drowsy",
+      "title": "Safe and warm, eyelids growing heavy",
+      "module": "./scenes/inside.js",
+      "start": 48.8,
+      "end": 72.4,
+      "lead": 0.8,
+      "params": {
+        "beat": "drowsy",
+        "at": {
+          "gaze": [49.2, 52.4],
+          "cosy": [53.0, 55.7],
+          "warm": 54.95,
+          "heavy": [56.9, 59.1],
+          "yawn": [59.2, 60.7],
+          "breathe": 61.8,
+          "thoughts": [64.2, 0.65],
+          "away": [67.2, 69.2],
+          "close": [70.4, 71.2]
+        }
+      },
+      "copy": {
+        "lines": [
+          {"text": "小狐狸，望了一会儿，", "beats": [[49.4, 50.21], [50.83, 51.6]]},
+          {"text": "觉得既安心，又暖和，", "beats": [[53.1, 54.36], [54.94, 55.62]]},
+          {"text": "眼皮也渐渐沉了下来。", "beats": [[57.07, 59.04]]},
+          {"text": "每一次呼吸，", "beats": [[61.88, 62.97]]},
+          {"text": "都让心里的念头像云朵一样，", "beats": [[64.07, 66.62]]},
+          {"text": "轻轻飘远。", "beats": [[67.28, 68.31]]},
+          {"text": "她闭上眼睛，想象自己，", "beats": [[70.48, 71.64], [72.81, 73.81]]}
+        ]
+      },
+      "cues": [
+        {"t": 48.0, "sfx": "swish", "gain": 0.12},
+        {"t": 53.1, "sfx": "blush", "gain": 0.18},
+        {"t": 54.95, "sfx": "twinkle", "note": "E6", "gain": 0.2},
+        {"t": 59.25, "sfx": "yawn", "gain": 0.55},
+        {"t": 64.2, "sfx": "puff", "gain": 0.22},
+        {"t": 64.85, "sfx": "puff", "pitch": 1.1, "gain": 0.2},
+        {"t": 65.5, "sfx": "puff", "pitch": 1.2, "gain": 0.2},
+        {"t": 66.15, "sfx": "puff", "pitch": 1.3, "gain": 0.2},
+        {"t": 67.2, "sfx": "breeze", "dur": 2.2, "pan": 0, "panTo": 0.6, "gain": 0.18},
+        {"t": 70.45, "sfx": "nightfall", "dur": 1.4, "gain": 0.22}
+      ]
+    },
+    {
+      "id": "dream",
+      "title": "Rocking among the stars",
+      "module": "./scenes/dream.js",
+      "start": 72.4,
+      "end": 81.6,
+      "lead": 1.4,
+      "params": {
+        "iris": [952, 518],
+        "at": {"iris": [71.0, 72.9], "ring": 74.6, "wide": [75.4, 79.4], "rock": 79.2}
+      },
+      "copy": {
+        "lines": [
+          {"text": "躺在星星之间，", "beats": [[74.56, 75.92]]},
+          {"text": "在宁静的夜空中，慢慢摇晃。", "beats": [[76.97, 78.48], [79.22, 80.16]]}
+        ]
+      },
+      "cues": [
+        {"t": 71.0, "sfx": "harp", "dur": 1.8, "gain": 0.28},
+        {"t": 74.6, "sfx": "shimmer", "gain": 0.2},
+        {"t": 77.0, "sfx": "breeze", "dur": 3.0, "gain": 0.12}
+      ]
+    },
+    {
+      "id": "hush",
+      "title": "The wind tiptoes, the leaves fall quiet",
+      "module": "./scenes/outside.js",
+      "start": 81.6,
+      "end": 94.6,
+      "lead": 1.0,
+      "params": {
+        "beat": "hush",
+        "at": {"wind": 81.8, "leaves": [84.9, 86.4], "song": 86.9, "quiet": [90.8, 94.0], "push": [92.2, 94.8]}
+      },
+      "copy": {
+        "lines": [
+          {"text": "风，放轻了脚步，", "beats": [[82.0, 82.56], [83.2, 84.31]]},
+          {"text": "树叶不再说话，", "beats": [[84.89, 86.23]]},
+          {"text": "小溪把歌声藏进月光里。", "beats": [[86.89, 89.33]]},
+          {"text": "四周，越来越安静，", "beats": [[90.89, 91.71], [92.41, 93.44]]}
+        ]
+      },
+      "cues": [
+        {"t": 81.4, "sfx": "breeze", "dur": 3.2, "pan": -0.7, "panTo": 0.3, "gain": 0.3},
+        {"t": 83.3, "sfx": "breeze", "dur": 2.6, "pan": 0.2, "panTo": 0.8, "gain": 0.14},
+        {"t": 84.9, "sfx": "rustle", "dur": 1.2, "pan": -0.3, "gain": 0.18},
+        {"t": 86.6, "sfx": "brook", "dur": 3.4, "pan": -0.3, "gain": 0.2},
+        {"t": 88.33, "sfx": "twinkle", "note": "G6", "gain": 0.16},
+        {"t": 88.78, "sfx": "twinkle", "note": "C7", "gain": 0.16},
+        {"t": 89.23, "sfx": "twinkle", "note": "E7", "gain": 0.16},
+        {"t": 89.68, "sfx": "twinkle", "note": "G7", "gain": 0.16},
+        {"t": 92.7, "sfx": "swish", "gain": 0.1}
+      ]
+    },
+    {
+      "id": "asleep",
+      "title": "Fast asleep",
+      "module": "./scenes/inside.js",
+      "start": 94.6,
+      "end": 101.9,
+      "lead": 0.9,
+      "params": {
+        "beat": "asleep",
+        "at": {"zzz": 95.4, "night": 99.9}
+      },
+      "copy": {
+        "lines": [
+          {"text": "小狐狸，也甜甜地睡着了。", "beats": [[95.22, 96.0], [96.8, 98.05]]},
+          {"text": "晚安，小狐狸，", "beats": [[99.8, 100.36], [100.73, 101.42]]}
+        ]
+      },
+      "cues": [
+        {"t": 99.9, "sfx": "twinkle", "note": "G6", "gain": 0.2}
+      ]
+    },
+    {
+      "id": "goodnight",
+      "title": "Goodnight, stars; goodnight, you",
+      "module": "./scenes/outside.js",
+      "start": 101.9,
+      "end": 111,
+      "lead": 0.8,
+      "params": {
+        "beat": "goodnight",
+        "at": {"stars": 102.24, "pull": [103.8, 106.6], "peek": [105.5, 106.9], "lightsOut": 107.0, "title": 107.4}
+      },
+      "copy": {
+        "lines": [
+          {"text": "晚安，星星，", "beats": [[102.24, 102.79], [103.15, 103.73]]},
+          {"text": "晚安，听故事的你。", "beats": [[104.84, 105.43], [105.77, 106.68]]}
+        ]
+      },
+      "cues": [
+        {"t": 101.2, "sfx": "swish", "gain": 0.12},
+        {"t": 102.24, "sfx": "twinkle", "note": "C6", "pan": -0.8, "gain": 0.18},
+        {"t": 102.4, "sfx": "twinkle", "note": "D6", "pan": -0.6, "gain": 0.18},
+        {"t": 102.56, "sfx": "twinkle", "note": "E6", "pan": -0.4, "gain": 0.18},
+        {"t": 102.72, "sfx": "twinkle", "note": "G6", "pan": -0.2, "gain": 0.18},
+        {"t": 102.88, "sfx": "twinkle", "note": "A6", "pan": 0.0, "gain": 0.18},
+        {"t": 103.04, "sfx": "twinkle", "note": "C7", "pan": 0.2, "gain": 0.18},
+        {"t": 103.2, "sfx": "twinkle", "note": "D7", "pan": 0.4, "gain": 0.18},
+        {"t": 103.36, "sfx": "twinkle", "note": "E7", "pan": 0.6, "gain": 0.18},
+        {"t": 103.52, "sfx": "twinkle", "note": "G7", "pan": 0.8, "gain": 0.18},
+        {"t": 105.5, "sfx": "blush", "gain": 0.2},
+        {"t": 107.0, "sfx": "nightfall", "dur": 1.6, "gain": 0.2},
+        {"t": 107.4, "sfx": "scribble", "dur": 0.9, "gain": 0.18},
+        {"t": 108.4, "sfx": "twinkle", "note": "C7", "gain": 0.25}
+      ]
+    }
+  ],
+  "music": {
+    "bpm": 60,
+    "key": "C major",
+    "chords": [
+      [0, 4, "C"],
+      [4, 8, "Am"],
+      [8, 12, "F"],
+      [12, 16, "G"],
+      [16, 20, "C"],
+      [20, 24, "Am"],
+      [24, 28, "G"],
+      [28, 32, "C"],
+      [32, 36, "F"],
+      [36, 40, "C"],
+      [40, 44, "Dm"],
+      [44, 48, "G"],
+      [48, 52, "C"],
+      [52, 56, "Am"],
+      [56, 60, "F"],
+      [60, 64, "G"],
+      [64, 68, "C"],
+      [68, 72, "Am"],
+      [72, 76, "F"],
+      [76, 80, "G"],
+      [80, 84, "C"],
+      [84, 88, "Am"],
+      [88, 92, "G"],
+      [92, 96, "C"],
+      [96, 100, "F"],
+      [100, 104, "C"],
+      [104, 108, "G"],
+      [108, 111, "C"]
+    ],
+    "theme": [
+      [["E5", 0, 2], ["G5", 2, 2], ["E5", 4, 2], ["C5", 6, 2]],
+      [["A4", 0, 2], ["C5", 2, 2], ["E5", 4, 4]],
+      [["F5", 0, 2], ["E5", 2, 2], ["D5", 4, 2], ["C5", 6, 2]],
+      [["D5", 0, 4], ["B4", 4, 2], ["G4", 6, 2]],
+      [["E5", 0, 2], ["G5", 2, 2], ["C6", 4, 3], ["B5", 7, 1]],
+      [["A5", 0, 2], ["G5", 2, 2], ["E5", 4, 4]],
+      [["D5", 0, 2], ["E5", 2, 2], ["F5", 4, 2], ["D5", 6, 2]],
+      [["C5", 0, 8]]
+    ],
+    "sections": [
+      {
+        "id": "moonrise",
+        "start": 0,
+        "end": 16.4,
+        "note": "a music-box lullaby over soft pads",
+        "layers": [
+          {"op": "pads", "a": 0, "z": 16, "gain": 0.12, "cutoff": 900},
+          {"op": "melody", "bars": [0, 1, 2, 3], "at": 0, "inst": "musicbox", "gain": 0.15},
+          {"op": "arp", "a": 8, "z": 16, "inst": "glock", "gain": 0.05, "step": "beat", "oct": 6, "pan": 0.2}
+        ]
+      },
+      {
+        "id": "den",
+        "start": 16,
+        "end": 24.6,
+        "note": "warm and cosy indoors: picked uke",
+        "layers": [
+          {"op": "pads", "a": 16, "z": 24, "gain": 0.11, "cutoff": 800},
+          {"op": "fingerpick", "a": 16, "z": 24, "gain": 0.07},
+          {"op": "melody", "bars": [4, 5], "at": 16, "inst": "pluck", "gain": 0.09, "pan": 0.15}
+        ]
+      },
+      {
+        "id": "brook",
+        "start": 24,
+        "end": 36.2,
+        "note": "flowing marimba; the brook's little song",
+        "layers": [
+          {"op": "pads", "a": 24, "z": 36, "gain": 0.1, "cutoff": 1000},
+          {"op": "arp", "a": 24, "z": 36, "inst": "marimba", "gain": 0.07, "step": "8th", "oct": 5, "pan": -0.2},
+          {"op": "melody", "bars": [6, 7], "at": 24, "inst": "marimba", "gain": 0.08},
+          {"op": "phrase", "at": 29.8, "inst": "marimba", "notes": ["E5", "G5", "A5", "G5", "E5"], "step": 0.32, "gain": 0.16, "pan": -0.3}
+        ]
+      },
+      {
+        "id": "stars",
+        "start": 36,
+        "end": 48.8,
+        "note": "glockenspiel sparkle; the stars are cues",
+        "layers": [
+          {"op": "pads", "a": 36, "z": 48, "gain": 0.1, "cutoff": 1200},
+          {"op": "arp", "a": 36, "z": 48, "inst": "glock", "gain": 0.06, "step": "beat", "oct": 5, "pan": 0.1}
+        ]
+      },
+      {
+        "id": "drowsy",
+        "start": 48,
+        "end": 72.4,
+        "note": "slowing down: pads, a little bass, the theme on music box",
+        "layers": [
+          {"op": "pads", "a": 48, "z": 72, "gain": 0.11, "cutoff": 800},
+          {"op": "rootBass", "a": 48, "z": 72, "step": "bar", "dur": 2.6, "drive": 1.0, "gain": 0.08},
+          {"op": "melody", "bars": [4, 5, 2, 3], "at": 48, "inst": "musicbox", "gain": 0.1},
+          {"op": "melody", "bars": [0, 1], "at": 64, "inst": "musicbox", "gain": 0.1}
+        ]
+      },
+      {
+        "id": "dream",
+        "start": 72,
+        "end": 81.6,
+        "note": "dreamy, brighter pads and slow glock",
+        "layers": [
+          {"op": "pads", "a": 72, "z": 80, "gain": 0.13, "cutoff": 1500},
+          {"op": "melody", "bars": [2, 3], "at": 72, "inst": "glock", "gain": 0.08},
+          {"op": "arp", "a": 72, "z": 80, "inst": "glock", "gain": 0.05, "step": "halfbar", "oct": 6}
+        ]
+      },
+      {
+        "id": "hush",
+        "start": 80,
+        "end": 94.6,
+        "note": "thinning out",
+        "layers": [
+          {"op": "pads", "a": 80, "z": 94, "gain": 0.09, "cutoff": 700},
+          {"op": "arp", "a": 80, "z": 92, "inst": "musicbox", "gain": 0.06, "step": "halfbar", "oct": 5}
+        ]
+      },
+      {
+        "id": "asleep",
+        "start": 94,
+        "end": 102,
+        "note": "almost nothing: a slow music box",
+        "layers": [
+          {"op": "pads", "a": 94, "z": 102, "gain": 0.07, "cutoff": 600},
+          {"op": "phrase", "at": 96.2, "inst": "musicbox", "notes": ["E5", "D5", "C5", "G4"], "step": 1.5, "gain": 0.08}
+        ]
+      },
+      {
+        "id": "goodnight",
+        "start": 102,
+        "end": 111,
+        "note": "the theme's last phrase, ending on C",
+        "layers": [
+          {"op": "pads", "a": 102, "z": 111, "gain": 0.1, "cutoff": 900},
+          {"op": "melody", "bars": [6, 7], "at": 104, "inst": "musicbox", "gain": 0.14},
+          {"op": "phrase", "at": 108, "inst": "glock", "notes": ["C5", "E5", "G5", "C6"], "step": 0.18, "gain": 0.07}
+        ]
+      }
+    ]
+  }
+}

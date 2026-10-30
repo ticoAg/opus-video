@@ -5,6 +5,7 @@ node_modules/
 build/
 out/
 input-pictures/
+input-audio/
 video-examples/
 
 # Logs

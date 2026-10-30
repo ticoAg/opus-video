@@ -263,4 +263,43 @@ export const SFX = {
     [0.35, 0, glock(mtof(NOTE(c.note)), { dur: 1.0 })],
   ),
   pad: (c) => pad(c.notes.map((n) => mtof(NOTE(n))), c.dur ?? 1),
+  // Leaves in a breeze: a swell of tiny high noise grains.
+  rustle: (c) => {
+    const d = c.dur ?? 1.5;
+    const r = noiseGen(211);
+    const grains = [];
+    for (let o = 0; o < d; o += 0.01 + Math.abs(r()) * 0.03) {
+      const fc = (2500 + Math.abs(r()) * 4000) * P(c);
+      grains.push([Math.abs(r()) * env.hump(o, d), o, filter(noise(0.03 + Math.abs(r()) * 0.05, 7 + grains.length, (t) => env.perc(t, 0.004, 0.02)), 'bandpass', () => fc, 1.2)]);
+    }
+    return concat(...grains, [0.25, 0, filter(noise(d, 213, (t) => env.hump(t, d)), 'bandpass', () => 3000 * P(c), 0.6)]);
+  },
+  // Babbling brook: a soft water bed plus little rising droplets.
+  brook: (c) => {
+    const d = c.dur ?? 3;
+    const r = noiseGen(221);
+    const fade = (t) => env.asr(t, Math.min(0.6, d / 3), d, Math.min(0.8, d / 3));
+    const drops = [];
+    for (let o = 0.05; o < d - 0.1; o += 0.04 + Math.abs(r()) * 0.12) {
+      const f0 = (500 + Math.abs(r()) * 900) * P(c), l = 0.03 + Math.abs(r()) * 0.05;
+      drops.push([(0.12 + Math.abs(r()) * 0.18) * fade(o), o, osc(l, (t) => f0 * (1 + 1.4 * (t / l) ** 2), (t) => env.hump(t, l))]);
+    }
+    const bed = filter(noise(d, 223, (t) => fade(t) * (0.55 + 0.45 * Math.sin(TAU * 0.7 * t) * Math.sin(TAU * 1.9 * t))), 'bandpass', (t) => 700 + 400 * Math.sin(TAU * 0.33 * t), 0.7);
+    return concat([0.9, 0, bed], ...drops);
+  },
+  // Soft night wind: a slow swell of band-passed noise.
+  breeze: (c) => {
+    const d = c.dur ?? 3;
+    const s = noise(d, 231, (t) => env.asr(t, d * 0.35, d, d * 0.45) * (0.7 + 0.3 * Math.sin(TAU * 0.6 * t + 1)));
+    return filter(s, 'bandpass', (t) => (350 + 500 * Math.sin(Math.PI * t / d) + 120 * Math.sin(TAU * 0.9 * t)) * P(c), 1.4).map((v) => v * 1.5);
+  },
+  // A small sleepy yawn: an open vowel that rises, falls and closes.
+  yawn: (c) => {
+    const d = c.dur ?? 1.3;
+    const u = (t) => t / d;
+    const v = voice(d, (t) => (330 + 260 * Math.sin(Math.PI * Math.min(1, u(t) * 1.6)) - 120 * u(t)) * P(c),
+      (t) => 900 - 450 * u(t) ** 2, (t) => 1500 - 700 * u(t), (t) => env.asr(t, 0.12, d, 0.4) * 0.35);
+    const breath = filter(noise(d, 241, (t) => env.asr(t, 0.2, d, 0.5) * 0.25), 'bandpass', (t) => 1200 - 500 * u(t), 1);
+    return concat([1, 0, v], [1, 0, breath]);
+  },
 };

@@ -71,7 +71,8 @@ Sprite options (`mode`, `exclude`, `grow`, `edgeRule`, `photoEdge`, `sticker`,
 
 `{ t, sfx, gain?, pan?, panTo?, panLfo?, pitch?, dur?, note? }`. `sfx` is a
 key of `src/audio/sfx.js` (≈50 sounds: `pop`, `boing`, `tweet`, `scribble`,
-`pageTurn`, `shimmer`, `harp`, `twinkle`, `musicbox`, `snore`, `ding`, …;
+`pageTurn`, `shimmer`, `harp`, `twinkle`, `musicbox`, `snore`, `ding`, and for
+quiet nights `rustle`, `brook`, `breeze`, `yawn`, …;
 `pnpm story:validate` lists unknown names). `note` (e.g. `"C6"`) is used by
 pitched sfx such as `musicbox`, `twinkle`, `pluck`, `grow`, `popNote`.
 
@@ -79,7 +80,8 @@ pitched sfx such as `musicbox`, `twinkle`, `pluck`, `grow`, `popNote`.
 
 Free-form per module: custom modules read their own keys (the sketchbook uses
 `copy.title1`, `copy.words[]`, …). The generic `card` module reads
-`copy.lines[] = { text, at, dur?, x?, y?, size?, font? ("Brush"|"Hand"), color?, rot?, out? }`.
+`copy.lines[] = { text, at, dur?, x?, y?, size?, font? ("Brush"|"Hand"|"CJK"|"CJKHand"), color?, rot?, out? }`.
+`CJKHand` is ZCOOL KuaiLe, a hand-lettered Chinese face shipped in `assets/fonts`.
 
 ## Spoken lines (narration / character voices)
 
@@ -111,6 +113,27 @@ fitted into its slot (until the next spoken line) by raising the TTS rate.
 `pnpm audio` then mixes them on a dialogue bus, ducking music ~9 dB under
 speech, so the rendered mp4 carries the voices. `pnpm story:validate` checks
 every speaker has a voice. Packs without spoken lines are unaffected.
+
+## Recorded narration
+
+Instead of (or as well as) TTS lines, a pack can bring its own audio: a story
+read aloud by a person, an interview, a song. List it in a top-level
+`recordings` array; `pnpm audio` decodes each file with ffmpeg and lays it on
+the same dialogue bus, so the music ducks under it like under TTS lines.
+
+```jsonc
+"recordings": [
+  { "file": "input-audio/narration.wav", "at": 3.0, "gain": 1, "pan": 0 }  // any format ffmpeg reads, relative to the pack
+]
+```
+
+`at` places the recording on the film clock (here: 3 s of title first), so
+everything else is timed from the recording: measure where each phrase starts
+and ends (e.g. `ffmpeg -af silencedetect` on the file, or a speech-to-text
+transcript with word timings) and use those seconds for scene starts, cues and
+captions. Like page photos, the audio is source media: `input-audio/` is
+git-ignored, and `pnpm story:validate` only warns when the file is missing or
+runs past the end of the film. `stories/goodnight-little-fox` is built this way.
 
 ## Built-in `card` module params
 

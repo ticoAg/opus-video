@@ -16,6 +16,11 @@
       "type": "object",
       "description": "Spoken-line cast: speaker name -> TTS voice. Lines are marked with copy.lines[].speaker or scenes[].dialogue. See src/audio/voices.js.",
       "additionalProperties": { "$ref": "#/$defs/voice" }
+    },
+    "recordings": {
+      "type": "array",
+      "description": "Recorded audio (a narration read by a person, an interview, …) mixed on the dialogue bus; the music ducks under it. See src/audio/render-audio.js.",
+      "items": { "$ref": "#/$defs/recording" }
     }
   },
   "$defs": {
@@ -122,6 +127,18 @@
         "pitch": { "type": "string", "pattern": "^[+-]\\d+Hz$" },
         "gain": { "type": "number", "minimum": 0, "maximum": 2 },
         "pan": { "type": "number", "minimum": -1, "maximum": 1 }
+      }
+    },
+    "recording": {
+      "type": "object",
+      "required": ["file"],
+      "additionalProperties": false,
+      "properties": {
+        "file": { "type": "string", "description": "Any audio file ffmpeg can read, relative to the pack folder (e.g. input-audio/narration.wav)." },
+        "at": { "$ref": "#/$defs/seconds" },
+        "gain": { "type": "number", "minimum": 0, "maximum": 2 },
+        "pan": { "type": "number", "minimum": -1, "maximum": 1 },
+        "note": { "type": "string" }
       }
     },
     "dialogueLine": {
