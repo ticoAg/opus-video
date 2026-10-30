@@ -31,6 +31,21 @@ connection drops.
 file tool, keep going with everything else, and point them at the setup
 below. Never ask for keys or tokens in chat.
 
+## The Google Drive connector
+
+With the claude.ai Google Drive connector connected (`mcp__Google_Drive__*`
+tools), use it for what fits in a message: find and read a story the user
+keeps in Drive (`search_files`, `read_file_content`), see what a film's
+folder holds, add a note (`create_file` with `textContent`), share a file
+(`share_file`). It cannot carry films or audio: its uploads and downloads
+pass through the conversation as base64, so anything past a few tens of KB
+is out of reach. Films go through `pnpm drive`, or through the chat.
+
+Leave `pnpm drive`'s folders to `pnpm drive`. With `drive.file` it cannot see
+folders made any other way (by hand or with the connector), and would make a
+second `opus-video/` beside them. The user can move its folder anywhere, for
+example into their own `videos/`.
+
 ## One-time setup (the user does this)
 
 `pnpm drive` signs in as the user through their own OAuth client with the

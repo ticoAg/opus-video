@@ -17,7 +17,9 @@ story on a recorded narration); copy its patterns.
 
 ## 0. Gather
 
-- The story text, or the narration audio (+ its text if there is one).
+- The story text, or the narration audio (+ its text if there is one). A
+  story kept in Google Drive can be read with the Google Drive connector
+  (`search_files`, `read_file_content`); audio has to come as a chat upload.
 - Language, target length, audience, mood; anything the user wants to see.
 - The voice: a provider from `src/audio/tts.js` — `edge-tts` (default, needs
   network), `command` (`$TTS_COMMAND`) or `openai` (`$TTS_BASE_URL`,
