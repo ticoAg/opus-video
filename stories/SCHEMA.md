@@ -71,7 +71,8 @@ Sprite options (`mode`, `exclude`, `grow`, `edgeRule`, `photoEdge`, `sticker`,
 
 `{ t, sfx, gain?, pan?, panTo?, panLfo?, pitch?, dur?, note? }`. `sfx` is a
 key of `src/audio/sfx.js` (≈50 sounds: `pop`, `boing`, `tweet`, `scribble`,
-`pageTurn`, `shimmer`, `harp`, `twinkle`, `musicbox`, `snore`, `ding`, …;
+`pageTurn`, `shimmer`, `harp`, `twinkle`, `musicbox`, `snore`, `ding`, and for
+quiet nights `rustle`, `brook`, `breeze`, `yawn`, …;
 `pnpm story:validate` lists unknown names). `note` (e.g. `"C6"`) is used by
 pitched sfx such as `musicbox`, `twinkle`, `pluck`, `grow`, `popNote`.
 
@@ -79,7 +80,8 @@ pitched sfx such as `musicbox`, `twinkle`, `pluck`, `grow`, `popNote`.
 
 Free-form per module: custom modules read their own keys (the sketchbook uses
 `copy.title1`, `copy.words[]`, …). The generic `card` module reads
-`copy.lines[] = { text, at, dur?, x?, y?, size?, font? ("Brush"|"Hand"), color?, rot?, out? }`.
+`copy.lines[] = { text, at, dur?, x?, y?, size?, font? ("Brush"|"Hand"|"CJK"|"CJKHand"), color?, rot?, out? }`.
+`CJKHand` is ZCOOL KuaiLe, a hand-lettered Chinese face shipped in `assets/fonts`.
 
 ## Spoken lines (narration / character voices)
 
@@ -105,12 +107,67 @@ Line options: `say`, `voiceAt` (start time if not `at`), `rate`, `pitch`, `gain`
 fitted into its slot (until the next spoken line) by raising the TTS rate.
 
 `pnpm voices` (`src/audio/voices.js`) synthesises one wav per line into
-`<buildDir>/voices/` (+ `manifest.json`, cached by text/voice) using the
-`edge-tts` CLI (Microsoft Edge neural voices; needs network; found as
-`$EDGE_TTS`, `edge-tts` on PATH, or `../.venv-tts/bin/edge-tts`).
+`<buildDir>/voices/` (+ `manifest.json`, cached by text/voice) with the voice's
+TTS `provider` (`src/audio/tts.js`): `edge-tts` (default; Microsoft Edge
+neural voices, needs network; found as `$EDGE_TTS`, `edge-tts` on PATH, or
+`../.venv-tts/bin/edge-tts`), `command` (any local TTS through the
+`$TTS_COMMAND` template) or `openai` (an OpenAI-compatible
+`$TTS_BASE_URL/v1/audio/speech`, with `$TTS_API_KEY` and the voice's `model`).
 `pnpm audio` then mixes them on a dialogue bus, ducking music ~9 dB under
 speech, so the rendered mp4 carries the voices. `pnpm story:validate` checks
 every speaker has a voice. Packs without spoken lines are unaffected.
+
+## Narration first (TTS or a recording)
+
+For a told story the narration leads and the film follows it: scenes, cues,
+captions and camera moves are placed on its measured phrases. The script is
+`<pack>/narration.json`:
+
+```jsonc
+{ "at": 3.0,     // film time where the narration starts (a title before it)
+  "gap": 0.7,    // pause after each line, seconds (TTS only)
+  "lines": [ { "speaker": "narrator", "text": "月亮升上了安静的山丘，……", "gap": 1.2, "rate": "-5%" } ] }
+```
+
+- `pnpm narrate` speaks each line with its speaker's voice from `voices`
+  (any provider), joins the clips and pauses into
+  `input-audio/narration.wav`, and writes `narration.timing.json`.
+- `pnpm align` does the same timing for a recording (the lines are its
+  transcript; `python3 src/tools/transcribe.py <audio>` drafts one).
+- `narration.timing.json`: `{ audio, at, duration, lines: [{ speaker, text,
+  start, end, phrases: [{ text, start, end }] }] }`, in film seconds. Phrases
+  split after ，。！？； and , . ! ? ; — speech is found with silencedetect,
+  breaths are dropped, and phrases are laid over the speech by length.
+- `pnpm captions --write` turns it into caption lines (below).
+
+The audio is mixed from a top-level `recordings` array; `pnpm audio` decodes
+each file with ffmpeg and lays it on the dialogue bus, so the music ducks
+under it like under TTS lines:
+
+```jsonc
+"recordings": [
+  { "file": "input-audio/narration.wav", "at": 3.0, "gain": 1, "pan": 0 }  // any format ffmpeg reads, relative to the pack
+]
+```
+
+Like page photos, the audio is source media: `input-audio/` is git-ignored
+(the user keeps the original; a new session needs it uploaded again), and
+`pnpm story:validate` only warns when the file is missing or runs past the
+end of the film. `stories/goodnight-little-fox` is built this way.
+
+## Captions (narrated films)
+
+Kit-based modules (`src/video/kit`, drawn through `frame()`) write the
+narration in at the bottom of the frame as it is spoken: every scene's
+`copy.lines[]` entry with `beats` is a caption line, one `[start, end]` per
+phrase of its `text` (split after ，。！？…), and the line fades just before
+the next one (or set `out`). `pnpm captions --write` makes them from the
+timing. Style, all optional, in a top-level `captions` object:
+
+```jsonc
+"captions": { "font": "CJKHand", "size": 56, "y": 996, "color": "#fff4dc",
+              "shadow": "rgba(6,8,26,0.9)", "band": "rgba(6,8,26,0.42)" }   // "none" turns shadow / band off
+```
 
 ## Built-in `card` module params
 

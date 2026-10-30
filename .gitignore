@@ -5,15 +5,17 @@ node_modules/
 build/
 out/
 input-pictures/
+input-audio/
 video-examples/
 
 # Logs
 *.log
 build.log
 
-# Local Python venvs (e.g. edge-tts)
+# Local Python venvs (e.g. edge-tts) and caches
 .venv*/
 venv/
+__pycache__/
 
 # TTS voice caches, backups, bundles
 voices/

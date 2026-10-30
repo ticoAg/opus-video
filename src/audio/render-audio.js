@@ -1,8 +1,10 @@
 // Builds the soundtrack: the score (music.js) plus every scene's sound cues
-// (the same cue list the visuals are timed from), mixed, reverbed, limited,
-// and written to build/soundtrack.wav.
+// (the same cue list the visuals are timed from), plus spoken lines (TTS stems
+// and recorded audio), mixed, reverbed, limited, and written to
+// build/soundtrack.wav.
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { SR, Bus, reverb, echo, biquad } from './dsp.js';
 import { SFX } from './sfx.js';
 import { score } from './music.js';
@@ -33,45 +35,62 @@ if (missing.size) console.warn('missing sfx:', [...missing].join(', '));
 console.log(`sfx (${CUES.length} cues) ${((performance.now() - t0) / 1000).toFixed(1)}s`);
 
 // Dialogue: TTS stems from `pnpm voices` (src/audio/voices.js), if the pack has
-// spoken lines. Music/percussion (and a little of the sfx) duck under speech.
+// spoken lines, plus recorded audio (story.recordings: a narration read by a
+// person, an interview, …). Music/percussion (and a little of the sfx) duck
+// under speech.
 const dialogue = new Bus(LEN);
-let hasDialogue = false;
+const spoken = []; // { at, dur, who } of every line / recording, for the speech-to-bed report
 if (spokenLines(activeStory()).length) {
   const mf = path.join(voicesDir(activeStory()), 'manifest.json');
   if (!fs.existsSync(mf)) console.warn(`spoken lines found but no stems: run STORY=${activeStory().id} pnpm voices`);
   else {
-    const lines = JSON.parse(fs.readFileSync(mf, 'utf8'));
-    for (const l of lines) {
+    for (const l of JSON.parse(fs.readFileSync(mf, 'utf8'))) {
       const { data } = readWavMono(path.join(path.dirname(mf), l.file));
       dialogue.add(data, l.at, { gain: 1.5 * (l.gain ?? 1), pan: l.pan ?? 0 });
+      spoken.push({ at: l.at, dur: l.dur, who: l.speaker });
     }
-    hasDialogue = lines.length > 0;
-    // Ducking envelope from the dialogue level (fast attack, slow release).
-    const att = Math.exp(-1 / (0.03 * SR)), rel = Math.exp(-1 / (0.35 * SR));
-    let e = 0;
-    for (let i = 0; i < dialogue.n; i++) {
-      const lvl = Math.min(1, Math.max(Math.abs(dialogue.L[i]), Math.abs(dialogue.R[i])) * 8);
-      e = lvl > e ? att * e + (1 - att) * lvl : rel * e + (1 - rel) * lvl;
-      const duck = 1 - 0.65 * e; // about -9 dB under speech
-      music.L[i] *= duck; music.R[i] *= duck;
-      perc.L[i] *= duck; perc.R[i] *= duck;
-      const d2 = 1 - 0.5 * e;
-      sfx.L[i] *= d2; sfx.R[i] *= d2;
-    }
-    // Speech-to-bed ratio per line (dialogue vs the ducked music/perc/sfx it sits on).
-    const snr = lines.map((l) => {
-      const a = Math.round(l.at * SR), z = Math.min(dialogue.n, a + Math.round(l.dur * SR));
-      let d = 0, b = 0;
-      for (let i = a; i < z; i++) {
-        d += dialogue.L[i] ** 2 + dialogue.R[i] ** 2;
-        const bl = music.L[i] * 0.8 + perc.L[i] * 0.75 + sfx.L[i], br = music.R[i] * 0.8 + perc.R[i] * 0.75 + sfx.R[i];
-        b += bl * bl + br * br;
-      }
-      return [10 * Math.log10((d + 1e-12) / (b + 1e-12)), l];
-    }).sort((x, y) => x[0] - y[0]);
-    console.log(`dialogue (${lines.length} lines) speech/bed dB  min ${snr[0][0].toFixed(1)} (${snr[0][1].at}s ${snr[0][1].speaker})  median ${snr[snr.length >> 1][0].toFixed(1)}`);
-    console.log(`dialogue (${lines.length} lines) ${((performance.now() - t0) / 1000).toFixed(1)}s`);
   }
+}
+for (const r of activeStory().recordings ?? []) {
+  const data = decodeMono(path.resolve(activeStory().dir, r.file));
+  dialogue.add(data, r.at ?? 0, { gain: r.gain ?? 1, pan: r.pan ?? 0 });
+  spoken.push({ at: r.at ?? 0, dur: data.length / SR, who: path.basename(r.file) });
+}
+const hasDialogue = spoken.length > 0;
+if (hasDialogue) {
+  // Ducking envelope from the dialogue level (fast attack, slow release).
+  const att = Math.exp(-1 / (0.03 * SR)), rel = Math.exp(-1 / (0.35 * SR));
+  let e = 0;
+  for (let i = 0; i < dialogue.n; i++) {
+    const lvl = Math.min(1, Math.max(Math.abs(dialogue.L[i]), Math.abs(dialogue.R[i])) * 8);
+    e = lvl > e ? att * e + (1 - att) * lvl : rel * e + (1 - rel) * lvl;
+    const duck = 1 - 0.65 * e; // about -9 dB under speech
+    music.L[i] *= duck; music.R[i] *= duck;
+    perc.L[i] *= duck; perc.R[i] *= duck;
+    const d2 = 1 - 0.5 * e;
+    sfx.L[i] *= d2; sfx.R[i] *= d2;
+  }
+  // Speech-to-bed ratio per line (dialogue vs the ducked music/perc/sfx it sits on).
+  const snr = spoken.map((l) => {
+    const a = Math.round(l.at * SR), z = Math.min(dialogue.n, a + Math.round(l.dur * SR));
+    let d = 0, b = 0;
+    for (let i = a; i < z; i++) {
+      d += dialogue.L[i] ** 2 + dialogue.R[i] ** 2;
+      const bl = music.L[i] * 0.8 + perc.L[i] * 0.75 + sfx.L[i], br = music.R[i] * 0.8 + perc.R[i] * 0.75 + sfx.R[i];
+      b += bl * bl + br * br;
+    }
+    return [10 * Math.log10((d + 1e-12) / (b + 1e-12)), l];
+  }).sort((x, y) => x[0] - y[0]);
+  console.log(`dialogue (${spoken.length} lines) speech/bed dB  min ${snr[0][0].toFixed(1)} (${snr[0][1].at}s ${snr[0][1].who})  median ${snr[snr.length >> 1][0].toFixed(1)}`);
+  console.log(`dialogue (${spoken.length} lines) ${((performance.now() - t0) / 1000).toFixed(1)}s`);
+}
+
+// Any audio file ffmpeg can read -> mono Float32Array at SR.
+function decodeMono(file) {
+  if (!fs.existsSync(file)) throw new Error(`recording not found: ${file}`);
+  const r = spawnSync('ffmpeg', ['-v', 'error', '-i', file, '-ac', '1', '-ar', String(SR), '-f', 'f32le', '-'], { maxBuffer: 1 << 30 });
+  if (r.status !== 0) throw new Error(`ffmpeg could not decode ${file}: ${r.stderr}`);
+  return new Float32Array(r.stdout.buffer.slice(r.stdout.byteOffset, r.stdout.byteOffset + r.stdout.byteLength));
 }
 
 // Mix: music + percussion + effects, with shared reverb and a music echo.

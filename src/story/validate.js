@@ -8,6 +8,7 @@
 //   ... --strict                            treat warnings as errors
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { STORIES_DIR, ROOT, loadStory, sceneModulePath } from './load.js';
 import { LAYER_OPS, STEP_NAMES, FONTS, NOTE_RE } from './vocab.js';
 
@@ -168,6 +169,18 @@ async function semantic(story, errs, warns) {
       if (typeof t !== 'number') errs.push(`${at} ${where}: spoken line needs a numeric "at"`);
       else if (t > dur) errs.push(`${at} ${where}: spoken at ${t}, after the end of the film`);
     }
+  });
+
+  // Recordings: source media like the page photos (may be kept out of git), so
+  // a missing file only warns; it has to start, and should end, inside the film.
+  (story.recordings ?? []).forEach((r, i) => {
+    const at = `recordings[${i}]`, t = r.at ?? 0;
+    const file = path.resolve(story.dir, r.file);
+    if (t > dur) errs.push(`${at}: starts at ${t}, after the end of the film`);
+    if (!fs.existsSync(file)) { warns.push(`${at}: ${path.relative(ROOT, file)} not found (pnpm audio needs it)`); return; }
+    const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', file], { encoding: 'utf8' });
+    const len = Number(probe.stdout);
+    if (probe.status === 0 && len && t + len > dur + 1e-6) warns.push(`${at}: runs ${(t + len - dur).toFixed(2)}s past the end of the film`);
   });
 
   // Music: chord chart, theme, layers.

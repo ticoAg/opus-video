@@ -1,0 +1,15 @@
+{
+  "note": "Transcript of the recorded narration (input-audio/narration.wav, not in git). `pnpm align` times it into narration.timing.json.",
+  "at": 3.0,
+  "lines": [
+    { "speaker": "narrator", "text": "月亮升上了安静的山丘，银色的月光，轻轻，铺满大地，像一床看不见的软毯，小狐狸裹着温暖的毯子，听着窗外树叶沙沙作响。" },
+    { "speaker": "narrator", "text": "不远处，小溪穿过森林，哼着轻柔的歌，歌声绕过石头，慢慢流远。" },
+    { "speaker": "narrator", "text": "星星，一颗接着一颗，亮起来，像挂在树梢的小灯笼，也像谁悄悄点亮的晚安灯。" },
+    { "speaker": "narrator", "text": "小狐狸，望了一会儿，觉得既安心，又暖和，眼皮也渐渐沉了下来。" },
+    { "speaker": "narrator", "text": "每一次呼吸，都让心里的念头像云朵一样，轻轻飘远。" },
+    { "speaker": "narrator", "text": "她闭上眼睛，想象自己，躺在星星之间，在宁静的夜空中，慢慢摇晃。" },
+    { "speaker": "narrator", "text": "风，放轻了脚步，树叶不再说话，小溪把歌声藏进月光里。" },
+    { "speaker": "narrator", "text": "四周，越来越安静，小狐狸，也甜甜地睡着了。" },
+    { "speaker": "narrator", "text": "晚安，小狐狸，晚安，星星，晚安，听故事的你。" }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "$schema": "../story.schema.json",
+  "meta": {
+    "id": "{{id}}",
+    "title": "{{title}}",
+    "description": "",
+    "language": "zh",
+    "duration": 32,
+    "fps": 30,
+    "size": {"width": 1920, "height": 1080},
+    "background": "#121a3a"
+  },
+  "voices": {
+    "narrator": {"voice": "zh-CN-XiaoxiaoNeural", "provider": "edge-tts", "rate": "-5%"}
+  },
+  "recordings": [
+    {"file": "input-audio/narration.wav", "at": 3, "note": "made by pnpm narrate from narration.json"}
+  ],
+  "scenes": [
+    {
+      "id": "opening",
+      "title": "Title over a quiet night",
+      "module": "./scenes/story.js",
+      "start": 0,
+      "end": 32,
+      "params": {"beat": "opening", "at": {"title": 0.5}},
+      "copy": {"lines": []},
+      "cues": [
+        {"t": 0.1, "sfx": "pageTurn", "gain": 0.35},
+        {"t": 0.5, "sfx": "scribble", "dur": 1.6, "gain": 0.25}
+      ]
+    }
+  ],
+  "music": {
+    "bpm": 60,
+    "key": "C major",
+    "chords": [[0, 4, "C"], [4, 8, "Am"], [8, 12, "F"], [12, 16, "G"], [16, 20, "C"], [20, 24, "Am"], [24, 28, "G"], [28, 32, "C"]],
+    "theme": [
+      [["E5", 0, 2], ["G5", 2, 2], ["E5", 4, 2], ["C5", 6, 2]],
+      [["A4", 0, 2], ["C5", 2, 2], ["E5", 4, 4]],
+      [["F5", 0, 2], ["E5", 2, 2], ["D5", 4, 2], ["C5", 6, 2]],
+      [["D5", 0, 4], ["B4", 4, 2], ["G4", 6, 2]]
+    ],
+    "sections": [
+      {
+        "id": "bed",
+        "start": 0,
+        "end": 32,
+        "note": "a soft music-box lullaby under the narration",
+        "layers": [
+          {"op": "pads", "a": 0, "z": 32, "gain": 0.12, "cutoff": 900},
+          {"op": "melody", "bars": [0, 1, 2, 3], "at": 0, "inst": "musicbox", "gain": 0.14},
+          {"op": "arp", "a": 16, "z": 32, "inst": "musicbox", "gain": 0.06, "step": "beat", "oct": 5}
+        ]
+      }
+    ]
+  }
+}

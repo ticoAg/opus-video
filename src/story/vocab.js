@@ -9,7 +9,7 @@ export const LAYER_OPS = ['pads', 'arp', 'melody', 'strum', 'bassline', 'drums',
 export const STEP_NAMES = ['bar', 'halfbar', 'beat', '8th', '16th'];
 
 // Fonts registered by src/video/engine.js.
-export const FONTS = ['Brush', 'Hand', 'CJK'];
+export const FONTS = ['Brush', 'Hand', 'CJK', 'CJKHand'];
 
 // Note names like C5, F#4, Bb3.
 export const NOTE_RE = /^[A-G](#|b)?-?\d$/;
