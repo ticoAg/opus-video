@@ -16,8 +16,8 @@ timed, and scenes, captions, music and sound effects are laid on that clock.
 Agents follow the `story-to-video` skill (`.claude/skills/story-to-video/`);
 `CLAUDE.md` maps the repo. The reusable drawing kit lives in `src/video/kit/`
 (see it all with `pnpm kit:sheet`), and `stories/goodnight-little-fox` is a
-complete worked example, a bedtime story on a recorded narration. Films and
-their source media are delivered to Google Drive; the packs and everything
+complete worked example, a bedtime story on a recorded narration. Films are
+sent in the chat and kept in the user's Google Drive; the packs and everything
 reusable stay here (`.claude/skills/story-to-video/references/delivery.md`).
 
 ```sh
@@ -26,7 +26,6 @@ STORY=my-story pnpm narrate             # TTS -> narration + phrase timing
 STORY=my-story pnpm captions --write    # captions written in as they are spoken
 STORY=my-story pnpm qa                  # checks + stills to look at
 STORY=my-story pnpm audio && STORY=my-story pnpm video && STORY=my-story pnpm share
-STORY=my-story pnpm drive push          # films + source media -> Google Drive
 ```
 
 ## The story
@@ -137,7 +136,7 @@ stories/          story packs (story.json per film) + schema
 templates/        starting points for new packs
 .claude/skills/   the story-to-video method, for agents
 build/            generated assets, stills, soundtrack (git-ignored)
-out/              the finished films (git-ignored; delivered to Google Drive)
+out/              the finished films (git-ignored; sent in the chat, kept in Google Drive)
 ```
 
 ## Credits & licence

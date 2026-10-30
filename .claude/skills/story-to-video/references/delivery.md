@@ -1,58 +1,79 @@
-# Delivery: films in Google Drive, everything else in the repo
+# Delivery: films in the chat, filed in Google Drive
 
 | where | what |
 | --- | --- |
 | the repo | the kit, the tools, this skill and its lessons, and every film's pack (text: `story.json`, `narration.json`, `narration.timing.json`, `scenes/`) |
-| Google Drive, `opus-video/<id>/` | the films and their notes, from `pnpm share` |
-| Google Drive, `opus-video/<id>/source/` | the pack's source media (`input-audio/`, `input-pictures/`), which git never holds |
+| the chat | the finished films, sent with the file tool |
+| the user's Google Drive | a folder per film, `opus-video-<title>` (the title without punctuation, e.g. `opus-video-晚安小狐狸`), beside the other film folders: both films, the notes, and the narration audio |
 
 Packs stay in the repo because they are small and keep paying off: the next
 film copies their patterns, and their stills (which render without the media)
-show whether a kit change altered an existing film. The container an agent
-works in is thrown away after the session, so source media must reach Drive
-too, or the film cannot be rebuilt.
+show whether a kit change altered an existing film. Media never goes into git.
 
-## Commands
+## Steps
 
-```bash
-pnpm drive                      # sign-in check, and a link per film folder
-STORY=<id> pnpm drive push      # films + notes + source media; prints a link per file
-STORY=<id> pnpm drive pull      # source media back into the pack (a fresh container)
-```
+1. Commit the pack, then `STORY=<id> pnpm share`: `out/<id>-share.mp4` and
+   `out/<id>-release.md`, notes that name the pack's commit.
+2. Send both films in the chat with the file tool: the share copy first (for
+   phones and chats), then the master `out/<id>.mp4` (about 70 MB for two
+   minutes at 1080p).
+3. With the Google Drive connector (`mcp__Google_Drive__*` tools):
+   - Find where the film folders live: `search_files` for folders whose title
+     contains `opus-video-`, and take their parent. If there are none yet,
+     ask the user which folder to use.
+   - Make `opus-video-<title>` there unless it exists: `create_file` with
+     `contentMimeType` `application/vnd.google-apps.folder` and `parentId`.
+   - Put the notes in it: `create_file` with `textContent`, `contentMimeType`
+     `text/markdown` and `disableConversionToGoogleType: true`.
+   - Give the user the folder's link. They drop the two films in, and the
+     narration audio if it is not in Drive yet.
+   - When the film comes up again, `search_files` with
+     `parentId = '<folder id>'` shows what arrived; the sizes should match
+     `out/`.
 
-Push skips files that are unchanged and turns a changed file into a new
-version of the one already there, so links people already have keep working.
-Uploads go in 8 MiB chunks and resume where they stopped when the
-connection drops.
+   Without the connector, paste the notes in the chat and name the folder
+   the films belong in.
+4. Open the PR with the pack (text only). Kit / tool / doc improvements go in
+   their own commits; add what you learned to `lessons.md`.
 
-## When Drive is not set up
+Never ask for keys or tokens in chat.
 
-`pnpm drive` says so. Send the user the share copy and the master with the
-file tool, keep going with everything else, and point them at the setup
-below. Never ask for keys or tokens in chat.
+## Source media
+
+The narration audio and any photographed pages belong to the user, who keeps
+them (the narration usually sits in the film's Drive folder). The container
+is thrown away after the session, renders and media with it, so deliver
+before the session ends. To rebuild or fix a film in a new session, ask the
+user to upload the audio in the chat again, and put it back at
+`stories/<id>/input-audio/narration.wav`.
 
 ## The Google Drive connector
 
-With the claude.ai Google Drive connector connected (`mcp__Google_Drive__*`
-tools), use it for what fits in a message: find and read a story the user
-keeps in Drive (`search_files`, `read_file_content`), see what a film's
-folder holds, add a note (`create_file` with `textContent`), share a file
-(`share_file`). It cannot carry films or audio: its uploads and downloads
+It moves what fits in a message. Use it to find and read a story the user
+keeps in Drive (`search_files`, `read_file_content`), to see what a folder
+holds, to make folders and add notes (`create_file`), and to share a file
+(`share_file`). It cannot carry films or audio. Its uploads and downloads
 pass through the conversation as base64, so anything past a few tens of KB
-is out of reach. Films go through `pnpm drive`, or through the chat.
+is out of reach.
 
-Leave `pnpm drive`'s folders to `pnpm drive`. With `drive.file` it cannot see
-folders made any other way (by hand or with the connector), and would make a
-second `opus-video/` beside them. The user can move its folder anywhere, for
-example into their own `videos/`.
+## Optional: automatic upload (`pnpm drive`)
 
-## One-time setup (the user does this)
+Not set up: the user chose delivery through the chat. `src/tools/drive.js`
+uploads the films, notes and source media through Drive's API, and brings
+the media back into a fresh container. It needs `GDRIVE_CLIENT_ID`,
+`GDRIVE_CLIENT_SECRET` and `GDRIVE_REFRESH_TOKEN` in the environment.
 
-`pnpm drive` signs in as the user through their own OAuth client with the
-scope `drive.file`: it sees only the files it created, never the rest of
-their Drive. That includes files the user drops into its folders by hand:
-the tool cannot see them. Source media reaches the agent as an upload in the
-chat, and `push` puts it in Drive.
+```bash
+pnpm drive                      # sign-in check, and a link per film folder
+STORY=<id> pnpm drive push      # films + notes + source media -> opus-video/<id>/ (media under source/)
+STORY=<id> pnpm drive pull      # source media back into the pack
+```
+
+It signs in through the user's own OAuth client with the scope `drive.file`,
+so it sees only the files it created. That means its own `opus-video/` tree,
+never the folders above, and never files dropped into its folders by hand.
+
+Setup, if the user ever asks for it:
 
 1. [Google Cloud console](https://console.cloud.google.com/): create a project,
    then APIs & Services → Library → enable **Google Drive API**.
@@ -70,14 +91,10 @@ chat, and `push` puts it in Drive.
    Step 1: type the scope above, *Authorize APIs*, and sign in. Step 2:
    *Exchange authorization code for tokens*, then copy the **refresh token**.
 5. In the cloud environment's settings (the environment menu in the session's
-   title bar → Edit), add `GDRIVE_CLIENT_ID`, `GDRIVE_CLIENT_SECRET` and
-   `GDRIVE_REFRESH_TOKEN`, under Network secrets where that section is
-   offered, otherwise as environment variables. The network must reach
-   `oauth2.googleapis.com` and `www.googleapis.com`. A new session picks them
-   up; `pnpm drive` confirms.
-
-Optional: `GDRIVE_ROOT` names the top folder (default `opus-video`). The
-folder can be moved anywhere in Drive.
+   title bar → Edit), add the three variables, under Network secrets where
+   that section is offered, otherwise as environment variables. The network
+   must reach `oauth2.googleapis.com` and `www.googleapis.com`. A new session
+   picks them up; `pnpm drive` confirms.
 
 ## A public page (optional)
 

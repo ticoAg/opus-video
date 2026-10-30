@@ -1,4 +1,7 @@
 // Deliver films to Google Drive, and keep each film's source media there.
+// Optional and not set up: films are sent in the chat (see
+// .claude/skills/story-to-video/references/delivery.md). This works once the
+// GDRIVE_* credentials below are in the environment.
 //
 //   STORY=<id> pnpm drive push [file…]   upload into <root>/<id>/ in Drive
 //   STORY=<id> pnpm drive pull           restore the pack's source media
@@ -17,7 +20,7 @@
 //   GDRIVE_CLIENT_ID, GDRIVE_CLIENT_SECRET, GDRIVE_REFRESH_TOKEN
 //   GDRIVE_ROOT      top folder (default "opus-video")
 //   GDRIVE_ENDPOINT  tests only: one local server standing in for Google
-// One-time setup: .claude/skills/story-to-video/references/delivery.md.
+// Setup: the "Optional" section of .claude/skills/story-to-video/references/delivery.md.
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';

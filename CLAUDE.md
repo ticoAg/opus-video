@@ -36,22 +36,21 @@ STORY=<id> pnpm qa                # checks + stills/sheets in build/<id>/qa/ (lo
 node src/video/render.js --story <id> --still 12.5 | --sheet 10 20 0.5 | --clip 10 20
 STORY=<id> pnpm video             # out/<id>.mp4
 STORY=<id> pnpm share             # out/<id>-share.mp4 + release notes
-STORY=<id> pnpm drive push        # films + source media -> Google Drive (pull: media back; no args: check)
 pnpm kit:sheet                    # build/kit-sheet.jpg: everything the kit draws
 ```
 
 Requirements: Node 20+, pnpm, ffmpeg. TTS: edge-tts, or `TTS_COMMAND`, or an
 OpenAI-compatible endpoint (`TTS_BASE_URL`, `TTS_API_KEY`) — see
-`src/audio/tts.js`. Transcription: `pip install faster-whisper`. Delivery: Google
-Drive credentials (`GDRIVE_*`) in the environment, see
+`src/audio/tts.js`. Transcription: `pip install faster-whisper`. Delivery: films
+are sent in the chat and filed in the user's Google Drive, see
 `.claude/skills/story-to-video/references/delivery.md`.
 
 ## Rules
 
 - **Never commit media**: source audio/pictures and rendered films stay out of
-  git (`input-audio/`, `input-pictures/`, `build/`, `out/`). Films and source
-  media go to Google Drive (`pnpm drive push`); packs are text and stay in
-  the repo.
+  git (`input-audio/`, `input-pictures/`, `build/`, `out/`). Films are sent
+  to the user in the chat and filed in their Google Drive; packs are text and
+  stay in the repo.
 - **One clock**: scenes, cues, captions, camera keys and music share absolute
   film seconds, all taken from `narration.timing.json`.
 - **Deterministic**: no `Math.random` or wall-clock time in drawing or sound;

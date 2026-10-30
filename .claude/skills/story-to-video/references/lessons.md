@@ -70,11 +70,15 @@ film teaches you something.
 - In the cloud sandbox, Python tools that bundle their own CA list (edge-tts
   via certifi) fail TLS through the proxy; point that venv's certifi file at
   `/root/.ccr/ca-bundle.crt`. Agent sessions cannot push tags (403) or
-  create releases: deliver through Drive (`pnpm drive push`).
+  create releases: send films in the chat (`delivery.md`).
 - Node's `fetch` ignores `HTTPS_PROXY`; call web APIs through `curl`, with
   secrets in its stdin config so they never show in `ps` (`tts.js`,
   `drive.js`).
-- The container is thrown away after the session, and the media with it.
-  Push the source media to Drive with the film, or it cannot be rebuilt.
+- The container is thrown away after the session, renders and source audio
+  with it. Deliver before the session ends; to rebuild later, the user
+  uploads the audio again.
+- The Google Drive connector moves text, not films: its uploads and
+  downloads pass through the conversation as base64. Use it for folders,
+  notes and stories; films and audio travel through the chat.
 - Watching a process with `pgrep -f <pattern>` matches the watcher's own
   command line; watch a PID or a marker file instead.

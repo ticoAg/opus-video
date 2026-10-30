@@ -5,8 +5,8 @@
 // out/<id>.mp4 (the master from `pnpm video`) -> out/<id>-share.mp4, a
 // lighter copy for phones and chats, and out/<id>-release.md, notes on the
 // film (title, description, scenes, files, the commit of its pack). Films are
-// delivered with `pnpm drive push`, never committed (see
-// .claude/skills/story-to-video).
+// sent to the user in the chat, never committed (see
+// .claude/skills/story-to-video/references/delivery.md).
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';

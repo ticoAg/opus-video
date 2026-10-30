@@ -25,7 +25,7 @@ in `narration.json`, `pnpm narrate` (TTS) or `pnpm align` (a recording),
 `pnpm captions --write`, then draw the scenes with the storybook kit
 (`src/video/kit/`). The `story-to-video` skill (`.claude/skills/`) walks
 through it; `stories/goodnight-little-fox` is the worked example. Films
-and their source media go to Google Drive (`pnpm drive push`), not into git.
+are sent in the chat and kept in the user's Google Drive, never in git.
 
 ## A new pack = new folder + assets + story.json (engine unchanged)
 

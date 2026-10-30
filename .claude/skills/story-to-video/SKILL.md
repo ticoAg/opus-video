@@ -1,6 +1,6 @@
 ---
 name: story-to-video
-description: Turn a story (a text, or a recorded narration) into a narrated, animated short with this repo's engine — narration first (TTS or recording), phrase timing, storyboard, procedural watercolour scenes from the storybook kit, captions written in as they are spoken, music and sound, QA, render, delivery to Google Drive. Use whenever asked to make a video, animation or short film from a story, script, poem or audio file.
+description: Turn a story (a text, or a recorded narration) into a narrated, animated short with this repo's engine — narration first (TTS or recording), phrase timing, storyboard, procedural watercolour scenes from the storybook kit, captions written in as they are spoken, music and sound, QA, render, delivery in the chat. Use whenever asked to make a video, animation or short film from a story, script, poem or audio file.
 ---
 
 # Story → video
@@ -24,9 +24,10 @@ story on a recorded narration); copy its patterns.
 - The voice: a provider from `src/audio/tts.js` — `edge-tts` (default, needs
   network), `command` (`$TTS_COMMAND`) or `openai` (`$TTS_BASE_URL`,
   `$TTS_API_KEY`). Keys live in the environment, never in files or chat.
-- Where the film goes: `pnpm drive` checks the Google Drive sign-in
-  (`references/delivery.md`). Working on a pack whose media is not in this
-  container (each session starts from a fresh clone)? `STORY=<id> pnpm drive pull`.
+- Where the film goes: the chat, then the user's Google Drive
+  (`references/delivery.md`). Rebuilding a film whose audio is not in this
+  container (each session starts from a fresh clone)? Ask the user to upload
+  it again.
 
 ## 1. Start the pack
 
@@ -132,19 +133,20 @@ Re-check the cuts with `node src/video/render.js --sheet a z 0.25`.
 ```bash
 STORY=<id> pnpm video        # out/<id>.mp4, ~5–6 frames/s at 1080p (a 2-minute film ≈ 10 min)
 STORY=<id> pnpm share        # out/<id>-share.mp4 + out/<id>-release.md (notes, with the pack's commit)
-STORY=<id> pnpm drive push   # both films, the notes and the source media -> Drive: opus-video/<id>/
 ```
 
 Films and media never go into git; the pack and everything reusable do.
+Deliver as `references/delivery.md` says:
 
-- Commit first, then `pnpm share`, so the notes name a commit that has the
-  pack. Commit the pack (text only) on your task branch and open the PR:
-  packs stay in the repo, as examples for the next film and as test material
-  for the kit. Kit / tool / doc improvements go in their own commits; add
-  what you learned to `references/lessons.md`.
-- Send the user the share copy and the Drive links that `push` prints. If
-  Drive is not set up, send both films with the file tool and point the user
-  at `references/delivery.md`.
+- Commit the pack (text only) on your task branch before `pnpm share`, so
+  the notes name a commit that has it, and open the PR: packs stay in the
+  repo, as examples for the next film and as test material for the kit.
+  Kit / tool / doc improvements go in their own commits; add what you
+  learned to `references/lessons.md`.
+- Send both films in the chat with the file tool, the share copy first.
+- With the Google Drive connector, make the film's folder
+  (`opus-video-<title>`, beside the other film folders), put the notes in
+  it, and give the user its link to drop the films in.
 - A public GitHub Release is optional and made by the user (agent sessions
   cannot push tags).
 
@@ -152,5 +154,5 @@ Films and media never go into git; the pack and everything reusable do.
 
 - `references/kit.md` — every kit function and its options.
 - `references/lessons.md` — mistakes already made once, and their fixes.
-- `references/delivery.md` — what goes to Drive and what stays in the repo; the one-time Drive setup.
+- `references/delivery.md` — how films reach the user and their Drive, and what stays in the repo.
 - `stories/goodnight-little-fox/` — the full worked example.
