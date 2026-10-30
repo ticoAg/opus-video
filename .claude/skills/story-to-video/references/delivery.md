@@ -35,7 +35,9 @@ below. Never ask for keys or tokens in chat.
 
 `pnpm drive` signs in as the user through their own OAuth client with the
 scope `drive.file`: it sees only the files it created, never the rest of
-their Drive.
+their Drive. That includes files the user drops into its folders by hand:
+the tool cannot see them. Source media reaches the agent as an upload in the
+chat, and `push` puts it in Drive.
 
 1. [Google Cloud console](https://console.cloud.google.com/): create a project,
    then APIs & Services → Library → enable **Google Drive API**.
