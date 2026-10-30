@@ -17,6 +17,19 @@
       "description": "Spoken-line cast: speaker name -> TTS voice. Lines are marked with copy.lines[].speaker or scenes[].dialogue. See src/audio/voices.js.",
       "additionalProperties": { "$ref": "#/$defs/voice" }
     },
+    "captions": {
+      "type": "object",
+      "description": "Style of the narration captions drawn by src/video/kit (lines with beats).",
+      "additionalProperties": false,
+      "properties": {
+        "font": { "type": "string" },
+        "size": { "type": "number", "exclusiveMinimum": 0 },
+        "y": { "type": "number", "description": "Baseline centre, pixels from the top." },
+        "color": { "type": "string" },
+        "shadow": { "type": "string", "description": "Glow behind the letters (CSS colour), or \"none\"." },
+        "band": { "type": "string", "description": "Colour of the soft band under the captions: rgb() or rgba(), or \"none\"." }
+      }
+    },
     "recordings": {
       "type": "array",
       "description": "Recorded audio (a narration read by a person, an interview, …) mixed on the dialogue bus; the music ducks under it. See src/audio/render-audio.js.",
@@ -122,7 +135,9 @@
       "required": ["voice"],
       "additionalProperties": false,
       "properties": {
-        "voice": { "type": "string", "description": "edge-tts voice name, e.g. zh-CN-XiaoxiaoNeural." },
+        "voice": { "type": "string", "description": "Voice name for the provider, e.g. zh-CN-XiaoxiaoNeural for edge-tts." },
+        "provider": { "enum": ["edge-tts", "command", "openai"], "description": "TTS provider (default edge-tts). See src/audio/tts.js." },
+        "model": { "type": "string", "description": "Model name for the openai / command providers." },
         "rate": { "type": "string", "pattern": "^[+-]\\d+%$" },
         "pitch": { "type": "string", "pattern": "^[+-]\\d+Hz$" },
         "gain": { "type": "number", "minimum": 0, "maximum": 2 },

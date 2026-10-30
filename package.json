@@ -10,11 +10,18 @@
     "segment": "node src/extract/segment.js",
     "extract": "node src/extract/export.js && node src/extract/textures.js",
     "voices": "node src/audio/voices.js",
+    "narrate": "node src/tools/narrate.js",
+    "align": "node src/tools/align.js",
+    "captions": "node src/tools/captions.js",
     "audio": "node src/audio/render-audio.js",
     "video": "node src/video/render.js",
     "preview": "node src/video/render.js --sheet",
+    "qa": "node src/tools/qa.js",
+    "share": "node src/tools/share.js",
     "build": "pnpm extract && pnpm voices && pnpm audio && pnpm video",
-    "story:validate": "node src/story/validate.js"
+    "story:new": "node src/tools/new-story.js",
+    "story:validate": "node src/story/validate.js",
+    "kit:sheet": "node src/tools/kit-sheet.js"
   },
   "dependencies": {
     "@napi-rs/canvas": "^1.0.9",

@@ -12,9 +12,10 @@ video-examples/
 *.log
 build.log
 
-# Local Python venvs (e.g. edge-tts)
+# Local Python venvs (e.g. edge-tts) and caches
 .venv*/
 venv/
+__pycache__/
 
 # TTS voice caches, backups, bundles
 voices/
